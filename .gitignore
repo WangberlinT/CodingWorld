@@ -2,20 +2,20 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/CodingWorld_Unity/[Ll]ibrary/
+/CodingWorld_Unity/[Tt]emp/
+/CodingWorld_Unity/[Oo]bj/
+/CodingWorld_Unity/[Bb]uild/
+/CodingWorld_Unity/[Bb]uilds/
+/CodingWorld_Unity/[Ll]ogs/
+/CodingWorld_Unity/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
-/[Mm]emoryCaptures/
+/CodingWorld_Unity/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-!/[Aa]ssets/**/*.meta
+#!/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -24,7 +24,7 @@
 /[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio cache directory
-.vs/
+/CodingWorld_Unity/.vs/
 
 # Gradle cache directory
 .gradle/
@@ -48,9 +48,9 @@ ExportedObj/
 *.VC.db
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+/CodingWorld_Unity/*.pidb.meta
+/CodingWorld_Unity/*.pdb.meta
+/CodingWorld_Unity/*.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
@@ -61,3 +61,4 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
