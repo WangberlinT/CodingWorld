@@ -6,14 +6,14 @@ namespace CodeWorldInterface
 {
     public interface SightObserver
     {
-        public void OnScannedObject(ScannedObjectEvent e);
+        void OnScannedObject(ScannedObjectEvent e);
     }
         
 
     public interface SightSubject
     {
-        public void AddObserver(SightObserver s);
-        public void NotifyObservers();
+        void AddObserver(SightObserver s);
+        void NotifyObservers();
     }
 }
 

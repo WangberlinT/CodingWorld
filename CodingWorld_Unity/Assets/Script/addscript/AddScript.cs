@@ -4,19 +4,19 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class addscript : MonoBehaviour
+public class AddScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
-       
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-         Add();
+        Add();
         Drop();
         if (Input.GetKeyUp(KeyCode.W))
         {
@@ -28,12 +28,12 @@ public class addscript : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            print("Press E");
+           
             string path = "Assets\\TXT\\pick.txt";
             StreamReader sr = new StreamReader(path);
             string[] str = sr.ReadToEnd().Split('\n');
-            
-            File.WriteAllLines("Assets\\Script\\Disappear.cs", str);
+
+            File.WriteAllLines("Assets\\Script\\addscript\\Disappear.cs", str);
             AssetDatabase.Refresh();
             gameObject.AddComponent<Disappear>();
         }
