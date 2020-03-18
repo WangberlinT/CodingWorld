@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 
+
 public class Movable : BasicMovement
 {
     private Rigidbody rb;
@@ -16,7 +17,8 @@ public class Movable : BasicMovement
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MoveTo(withAngle(45, 4), 4);
+            Vector3[] path = { Forward(3),Right(2),withAngle(Mathf.PI,5) };
+            MovePath(path, 10);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -63,7 +65,6 @@ public class Movable : BasicMovement
     {
         
         Vector3 destn = transform.forward.normalized * distance;
-        Debug.Log(rb.position + destn);
         MoveTo(rb.position + destn, distance,maxspeed);
 
     }
@@ -171,6 +172,19 @@ public class Movable : BasicMovement
     {
         Quaternion rotation = Quaternion.AngleAxis(angle, transform.up); ;
         Vector3 dir = rotation * transform.forward;
+        Debug.Log(dir);
         return startposition + dir.normalized * distance;
+    }
+
+
+
+    public void MovePath(Vector3[] path, float speed)
+    {
+        Hashtable arg = new Hashtable();
+        arg.Add("path", path);
+        arg.Add("movetopath", true);
+        arg.Add("orienttopath", true);
+        arg.Add("speed", 1f);
+        iTween.MoveTo(gameObject, arg);
     }
 }
