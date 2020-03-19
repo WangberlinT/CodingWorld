@@ -7,12 +7,14 @@ public class ObjectManager : MonoBehaviour
     public ControlObject user;
     public GameObject eye;
     private VisualMessage visual;
+    
     void Start()
     {
         //初始化ControlObject 部件,Visual
         BasicSight sight = eye.GetComponent<BasicSight>();
+        Movable move = GetComponent<Movable>();
         if (user == null)
-            user = new Animal(sight);
+            user = new Animal(sight,move);
         visual = new VisualMessage(transform.position, user, user.GetObjectType());
         Debug.Log("ObjectManager Init OK");
 
@@ -24,10 +26,10 @@ public class ObjectManager : MonoBehaviour
     void Update()
     {
         //开始ControlObject任务
-        if(user.IsRunning())
-            user.Run();
+
+        if (user.IsRunning())
+            StartCoroutine(userrun());
         user.End();
-        Debug.Log("Run Finished");
         UpdateVisualMessage();
     }
 
@@ -39,5 +41,11 @@ public class ObjectManager : MonoBehaviour
     private void UpdateVisualMessage()
     {
         visual.SetAbsPosition(transform.position);
+    }
+
+    IEnumerator userrun()
+    {
+       yield return user.Run();
+        
     }
 }

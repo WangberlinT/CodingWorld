@@ -11,12 +11,12 @@ namespace Control
         /*
          * 行为调用接口，在对象运行脚本中调用
          */
-        public abstract void Run();
+        public abstract IEnumerator Run();
         /*
          * Task()
          * 子类重写，实现具体的任务
          */
-        public abstract void Task();
+        public abstract IEnumerator Task();
 
         
 

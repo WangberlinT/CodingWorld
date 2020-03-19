@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Movement;
 
 
 
@@ -9,11 +9,14 @@ public class Movable : BasicMovement
 {
     private Rigidbody rb;
     private Vector3 startpos;
-    private void Awake()
+    
+    void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
     }
-   
+        
+    
+
 
     public Vector3 getHeading()
     {
@@ -22,13 +25,13 @@ public class Movable : BasicMovement
 
     public override void head(float distance, float maxspeed)
     {
-        
+
         Vector3 destn = transform.forward.normalized * distance;
-        MoveTo(rb.position + destn, distance,maxspeed);
+        MoveTo(rb.position + destn, distance, maxspeed);
 
     }
 
-    private void MoveTo(Vector3 destn,float distance, float speed)
+    private void MoveTo(Vector3 destn, float distance, float speed)
     {
 
         MoveTo(destn, speed);
@@ -41,9 +44,9 @@ public class Movable : BasicMovement
 
     public override void left(float distance, float maxspeed)
     {
-       
-        Vector3 destn =  -1*transform.right.normalized * distance;
-       
+
+        Vector3 destn = -1 * transform.right.normalized * distance;
+
         MoveTo(rb.position + destn, distance, maxspeed);
 
 
@@ -52,25 +55,25 @@ public class Movable : BasicMovement
     public override void right(float distance, float maxspeed)
     {
         Vector3 destn = transform.right.normalized * distance;
-       
+
         MoveTo(rb.position + destn, distance, maxspeed);
 
     }
 
     public override void tail(float distance, float maxspeed)
     {
-        Vector3 destn = -1* transform.forward.normalized * distance;
-        
+        Vector3 destn = -1 * transform.forward.normalized * distance;
+
         MoveTo(rb.position + destn, distance, maxspeed);
 
     }
 
     public override void turnLeft(float degree)
     {
-        iTween.RotateAdd(gameObject, new Vector3(0, -1*degree, 0), 1);
+        iTween.RotateAdd(gameObject, new Vector3(0, -1 * degree, 0), 1);
 
     }
-    
+
     public override void turnRight(float degree)
     {
         iTween.RotateAdd(gameObject, new Vector3(0, degree, 0), 1);
@@ -94,7 +97,7 @@ public class Movable : BasicMovement
 
     public Vector3 Left(Vector3 startposition, float distance)
     {
-        return startposition + transform.right.normalized * distance*-1;
+        return startposition + transform.right.normalized * distance * -1;
     }
 
     public Vector3 Right(float distance)
@@ -113,7 +116,7 @@ public class Movable : BasicMovement
 
     public Vector3 Behind(Vector3 startposition, float distance)
     {
-        return startposition + transform.forward.normalized * distance*-1;
+        return startposition + transform.forward.normalized * distance * -1;
     }
 
     public void MoveTo(Vector3 position, float speed)
@@ -127,9 +130,9 @@ public class Movable : BasicMovement
     public void MoveToR(Vector3 position, float speed)
     {
 
-        iTween.MoveTo(gameObject, iTween.Hash("position",position,
+        iTween.MoveTo(gameObject, iTween.Hash("position", position,
                                                 "speed", speed,
-                                                "orienttopath",true
+                                                "orienttopath", true
                                                 ));
     }
 
@@ -142,7 +145,6 @@ public class Movable : BasicMovement
     {
         Quaternion rotation = Quaternion.AngleAxis(angle, transform.up); ;
         Vector3 dir = rotation * transform.forward;
-        Debug.Log(dir);
         return startposition + dir.normalized * distance;
     }
 
@@ -154,8 +156,19 @@ public class Movable : BasicMovement
         arg.Add("path", path);
         arg.Add("movetopath", true);
         arg.Add("orienttopath", true);
-        arg.Add("speed", 2f);
-        arg.Add("loopType", iTween.LoopType.loop);
+        arg.Add("speed", speed);
+        iTween.MoveTo(gameObject, arg);
+
+    }
+
+    public void MoveLoop(Vector3[] path, float speed)
+    {
+        Hashtable arg = new Hashtable();
+        arg.Add("path", path);
+        arg.Add("movetopath", true);
+        arg.Add("orienttopath", true);
+        arg.Add("speed", speed);
+        arg.Add("loopType", iTween.LoopType.pingPong);
         iTween.MoveTo(gameObject, arg);
         Debug.Log("try to loop");
     }
@@ -163,20 +176,21 @@ public class Movable : BasicMovement
     public void follow(GameObject go)
     {
         Hashtable ht = new Hashtable();
-        Vector3 aimpos = go.transform.position - rb.transform.right.normalized*3;
-        ht.Add("position",aimpos);
+        Vector3 aimpos = go.transform.position - rb.transform.right.normalized * 3;
+        ht.Add("position", aimpos);
         ht.Add("speed", 5f);
         Debug.Log("try to follow");
-        iTween.MoveUpdate(gameObject,ht);
+        iTween.MoveUpdate(gameObject, ht);
     }
-    
+
     public void follow()
     {
-        GameObject go = GameObject.Find("master");      
-             follow(go);
-        
-
-        
-              
+        GameObject go = GameObject.Find("master");
+        follow(go);
     }
+    public void Stop()
+    {
+        iTween.Stop(gameObject);
+    }
+
 }
