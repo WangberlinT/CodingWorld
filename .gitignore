@@ -16,6 +16,6 @@
 
 # Visual Studio cache directory
 /CodingWorld_Unity/.vs/
-
+*.cs.meta
 
 
