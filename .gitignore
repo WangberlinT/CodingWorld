@@ -12,20 +12,20 @@
 
 # Visual Studio cache directory
 /CodingWorld_Unity/.vs/
-*.cs.meta
 
-*.csproj
-*.unityproj
-*.sln
-*.suo
-*.tmp
-*.user
-*.userprefs
-*.pidb
-*.booproj
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+/CodingWorld_Unity/ExportedObj/
 *.svd
-*.pdb
-*.mdb
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
 *.opendb
 *.VC.db
 
@@ -41,15 +41,15 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-============
-OS generated
-============
-*.DS_Store
-*.DS_Store?
-*._*
-*.Spotlight-V100
-*.Trashes
-*ehthumbs.db
-*Thumbs.db
-
+# ============ #
+# OS generated #
+# ============ #
+/CodingWorld_Unity/.DS_Store
+/CodingWorld_Unity/.DS_Store?
+/CodingWorld_Unity/._*
+/CodingWorld_Unity/.Spotlight-V100
+/CodingWorld_Unity/.Trashes
+/CodingWorld_Unity/Icon?
+/CodingWorld_Unity/ehthumbs.db
+/CodingWorld_Unity/Thumbs.db
 
