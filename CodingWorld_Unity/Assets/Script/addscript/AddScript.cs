@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+
 using UnityEditor;
 using UnityEngine;
 
 public class AddScript : MonoBehaviour
 {
+    public GameObject add;
+    public GameObject wrt;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,33 +18,28 @@ public class AddScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Add();
-        Drop();
-        if (Input.GetKeyUp(KeyCode.W))
+        if ((!add.active) && (!wrt.active))
         {
-            gameObject.transform.Find("Canvas").gameObject.SetActive(true);
+        Add();
+        Write();
+        
         }
+        
     }
 
     void Add()
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-           
-            string path = "Assets\\TXT\\pick.txt";
-            StreamReader sr = new StreamReader(path);
-            string[] str = sr.ReadToEnd().Split('\n');
-
-            File.WriteAllLines("Assets\\Script\\addscript\\Disappear.cs", str);
-            AssetDatabase.Refresh();
-            gameObject.AddComponent<Disappear>();
-        }
+            add.gameObject.SetActive(true);
+        }          
+        
     }
-    void Drop()
+    void Write()
     {
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.W))
         {
-            Destroy(GetComponent<Disappear>());
+            wrt.gameObject.SetActive(true);
         }
     }
 }
