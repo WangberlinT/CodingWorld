@@ -6,10 +6,9 @@ using CodeWorldInterface;
 using Events;
 public class Animal : ControlObject,SightObserver
 {
-    ObjectType type = ObjectType.Animal;
-    BasicSight sight;
-    Movable move;
-    bool s=true;
+    protected ObjectType type = ObjectType.Animal;
+    protected BasicSight sight;
+    protected Movable move;
 
     public Animal(BasicSight s, Movable m)
     {
@@ -33,27 +32,15 @@ public class Animal : ControlObject,SightObserver
 
    
 
-     public override IEnumerator Task()
+    public override IEnumerator Task()
     {
         // 子类需要重载这个方法以实现行为
-        Debug.Log("Animal! UP");
-        sight.SightUP(30f);
-        yield return new WaitForSeconds(1);
-        sight.SightDown(30f);
-        yield return new WaitForSeconds(1);
-        for (int i = 0; i < 5&&s; i++)
-        {
-            move.MoveTo(move.Forward(2), 2);
-            yield return new WaitForSeconds(1.1f);
-            move.MoveTo(move.Left(2), 2);
-            yield return new WaitForSeconds(1.1f);
-        }
+        yield return null;
  
     }
 
     public void OnScannedObject(ScannedObjectEvent e)
     {
-        s = false;
-        move.Stop();
+
     }
 }

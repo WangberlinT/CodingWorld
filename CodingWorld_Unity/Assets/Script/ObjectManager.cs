@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Control;
+using System.Reflection;
+
 public class ObjectManager : MonoBehaviour
 {
     public ControlObject user;
@@ -15,7 +17,7 @@ public class ObjectManager : MonoBehaviour
         Movable move = GetComponent<Movable>();
         if (user == null)
             user = new Animal(sight,move);
-        visual = new VisualMessage(transform.position, user, user.GetObjectType());
+        visual = new VisualMessage(transform.position, user, user.GetObjectType(),gameObject.name);
         Debug.Log("ObjectManager Init OK");
 
         //开始ControlObject任务
@@ -31,6 +33,15 @@ public class ObjectManager : MonoBehaviour
             StartCoroutine(userrun());
         user.End();
         UpdateVisualMessage();
+    }
+
+    public void addAnimalScript(string classname)
+    {
+        Assembly asm = Assembly.GetExecutingAssembly();
+        object o = asm.CreateInstance(classname);
+        ConstructorInfo[] constructors = o.GetType().GetConstructors();
+
+        //todo 反射
     }
 
     public VisualMessage GetVisualMessage()

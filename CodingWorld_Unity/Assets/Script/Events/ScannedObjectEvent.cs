@@ -36,8 +36,9 @@ namespace Events
             for(int i = 0;i < c_list.Count;i ++)
             {
                 Collider temp = c_list[i];
-                //获取父元素
+                //获取碰撞体的GameObject
                 GameObject g = temp.gameObject;
+                GameObject root = g.transform.parent.gameObject;
             }
         }
 

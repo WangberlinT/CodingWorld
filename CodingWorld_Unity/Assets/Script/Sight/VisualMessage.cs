@@ -11,11 +11,13 @@ public class VisualMessage
     private Vector3 absolute_position;
     private ObjectType type;
     private ControlObject c_obj;
-    public VisualMessage(Vector3 abs_pos,ControlObject c,ObjectType obj_type)
+    private string name;
+    public VisualMessage(Vector3 abs_pos,ControlObject c,ObjectType obj_type,string obj_name)
     {
         c_obj = c;
         type = obj_type;
         absolute_position = abs_pos;
+        name = obj_name;
     }
 
     public ObjectType GetObjectType()

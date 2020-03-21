@@ -35,7 +35,10 @@ public class AddScript : MonoBehaviour
 
             File.WriteAllLines("Assets\\Script\\addscript\\Disappear.cs", str);
             AssetDatabase.Refresh();
-            gameObject.AddComponent<Disappear>();
+            gameObject.AddComponent<Disappear>();//objmng.addAnimalUserScript("UserScript1")
+            //Model(s,m) = Animal
+            //user = new Model()
+
         }
     }
     void Drop()
