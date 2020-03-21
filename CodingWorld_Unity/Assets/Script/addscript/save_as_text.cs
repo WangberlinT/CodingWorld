@@ -23,11 +23,12 @@ public class save_as_text : MonoBehaviour
         Debug.Log("push Button");
         string save_value = GameObject.Find("mainbodyinputField").GetComponent<InputField>().text;
         Debug.Log(save_value);
-        string[] in_str = save_value.Split('\n');
-        string text_value = GameObject.Find("InputField").GetComponent<InputField>().text;
-        File.WriteAllLines(path+text_value,in_str );
+        string pet_name = GameObject.Find("PetnameInputField").GetComponent<InputField>().text;
+        save_value=save_value.Replace("moban", pet_name);
+        string[] in_str = save_value.Split(new char[] { '\r','\n'},System.StringSplitOptions.RemoveEmptyEntries);
+        File.WriteAllLines(path+pet_name+".cs",in_str );
         AssetDatabase.Refresh();
-        GameObject.Find("Canvas").SetActive(false);
+        GameObject.Find("WriteCanvas").SetActive(false);
 
     }
 }

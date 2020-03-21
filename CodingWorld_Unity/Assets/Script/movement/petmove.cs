@@ -31,7 +31,7 @@ public class petmove : MonoBehaviour
         {
              if ((gameObject.transform.position - master.transform.position).sqrMagnitude > 9.5f)
                     {
-                         mo.follow();
+                         mo.follow("master");
                     }
         }
 

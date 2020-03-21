@@ -9,10 +9,11 @@ public class Movable : BasicMovement
 {
     private Rigidbody rb;
     private Vector3 startpos;
-    
+    private float height;
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        height = rb.position.y;
     }
         
     
@@ -176,16 +177,17 @@ public class Movable : BasicMovement
     public void follow(GameObject go)
     {
         Hashtable ht = new Hashtable();
-        Vector3 aimpos = go.transform.position - rb.transform.right.normalized * 3;
+        Vector3 vc = (go.transform.position - rb.position).normalized;
+        Vector3 aimpos = go.transform.position - vc * 3;
+        aimpos.y = 0.5f;
         ht.Add("position", aimpos);
         ht.Add("speed", 5f);
-        Debug.Log("try to follow");
         iTween.MoveUpdate(gameObject, ht);
     }
 
-    public void follow()
+    public void follow(string objectname)
     {
-        GameObject go = GameObject.Find("master");
+        GameObject go = GameObject.Find(objectname);
         follow(go);
     }
     public void Stop()
