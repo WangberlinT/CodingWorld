@@ -17,6 +17,19 @@ public class Animal : ControlObject,SightObserver
         sight.AddObserver(this);
     }
 
+    public Animal() { }
+
+    public void SetBasicSight(BasicSight b)
+    {
+        sight = b;
+        sight.AddObserver(this);
+    }
+
+    public void SetMovable(Movable m)
+    {
+        move = m;
+    }
+
     public override IEnumerator Run()
     {
         // 子类需要重载这个方法以实现行为

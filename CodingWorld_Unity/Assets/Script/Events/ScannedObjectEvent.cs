@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodingWorldUtil;
 namespace Events
 {
     /*
@@ -28,6 +29,7 @@ namespace Events
     {
         //todo 整个的逻辑和内容都需要设计
         private List<Collider> colliders;
+        private List<VisualMessage> messages = new List<VisualMessage>();
 
         public ScannedObjectEvent(List<Collider> c_list)
         {
@@ -38,11 +40,21 @@ namespace Events
                 Collider temp = c_list[i];
                 //获取碰撞体的GameObject
                 GameObject g = temp.gameObject;
-                GameObject root = g.transform.parent.gameObject;
+                GameObject root = StaticUtil.GetRootGameObject(g);
+
+                ObjectManager obj_mng = root.GetComponent<ObjectManager>();
+
+                if (obj_mng == null)
+                    Debug.Log("obj_mng is null");
+                else
+                    messages.Add(obj_mng.GetVisualMessage());
             }
         }
 
-
+        public List<VisualMessage> GetAllMessages()
+        {
+            return messages;
+        }
 
     }
 }

@@ -56,7 +56,6 @@ public class BasicSight : MonoBehaviour, SightSubject
     public void SightUP(float degree)
     {
         // 最大只能朝上xmin 度
-        Debug.Log("Test"+this);
         aim_rot.x = -degree;
         if (aim_rot.x < X_min)
             aim_rot.x = X_min;

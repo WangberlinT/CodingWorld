@@ -34,4 +34,9 @@ public class VisualMessage
     {
         absolute_position = pos;
     }
+
+    public string GetName()
+    {
+        return name;
+    }
 }

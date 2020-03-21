@@ -12,6 +12,8 @@ public class UserScript1 : Animal, SightObserver
 
     }
 
+    public UserScript1() { }
+
     public override IEnumerator Run()
     {
         Begin();
@@ -38,8 +40,15 @@ public class UserScript1 : Animal, SightObserver
 
     public void OnScannedObject(ScannedObjectEvent e)
     {
-        s = false;
-        move.Stop();
+        List<VisualMessage> messages = e.GetAllMessages();
+        if(messages != null)
+        {
+            for (int i = 0; i < messages.Count; i++)
+                Debug.Log(messages[i].GetName());
+            s = false;
+            move.Stop();
+        }
+        
     }
 
 }

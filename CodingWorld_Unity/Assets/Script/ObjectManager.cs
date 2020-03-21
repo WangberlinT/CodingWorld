@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Control;
 using System.Reflection;
+using System;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -13,12 +14,19 @@ public class ObjectManager : MonoBehaviour
     void Start()
     {
         //初始化ControlObject 部件,Visual
-        BasicSight sight = eye.GetComponent<BasicSight>();
-        Movable move = GetComponent<Movable>();
-        if (user == null)
-            user = new Animal(sight,move);
+        if (eye != null)
+        {
+            addAnimalScript("UserScript1");
+            BasicSight sight = eye.GetComponent<BasicSight>();
+            Movable move = GetComponent<Movable>();
+            if (user == null)
+                user = new Animal(sight, move);
+        }
+        else
+            user = new Environment();
+
         visual = new VisualMessage(transform.position, user, user.GetObjectType(),gameObject.name);
-        Debug.Log("ObjectManager Init OK");
+        Debug.Log("ObjectManager"+visual.GetName()+" Init OK");
 
         //开始ControlObject任务
         user.Begin();
@@ -28,20 +36,27 @@ public class ObjectManager : MonoBehaviour
     void Update()
     {
         //开始ControlObject任务
-
-        if (user.IsRunning())
-            StartCoroutine(userrun());
-        user.End();
+        if(user != null)
+        {
+            if (user.IsRunning())
+                StartCoroutine(userrun());
+            user.End();
+        }
         UpdateVisualMessage();
     }
 
     public void addAnimalScript(string classname)
     {
+        Debug.Log("AddAnimalScript!");
         Assembly asm = Assembly.GetExecutingAssembly();
-        object o = asm.CreateInstance(classname);
-        ConstructorInfo[] constructors = o.GetType().GetConstructors();
+        Animal a = (Animal)asm.CreateInstance(classname);
+        Type t = a.GetType();
 
-        //todo 反射
+        a.SetBasicSight(eye.GetComponent<BasicSight>());
+        a.SetMovable(gameObject.GetComponent<Movable>());
+
+        user = a;
+        Debug.Log("add Finished");
     }
 
     public VisualMessage GetVisualMessage()
