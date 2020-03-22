@@ -1,26 +1,22 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Control;
 using CodeWorldInterface;
 using Events;
-public class UserScript1 : Animal, SightObserver
+public class followScript : Animal, SightObserver
 {
     bool s = true;
-    public UserScript1(BasicSight s, Movable m) : base(s, m)
+    public followScript(BasicSight s, Movable m) : base(s, m)
     {
-
     }
-
-    public UserScript1() { }
-
+    public followScript() { }
     public override IEnumerator Run()
     {
         Begin();
         yield return Task();
         End();
     }
-
     public override IEnumerator Task()
     {
         Debug.Log("Animal! UP");
@@ -33,20 +29,8 @@ public class UserScript1 : Animal, SightObserver
             move.follow("followman");
             yield return new WaitForFixedUpdate();
         }
-
     }
-
     public void OnScannedObject(ScannedObjectEvent e)
     {
-        List<VisualMessage> messages = e.GetAllMessages();
-        if(messages != null)
-        {
-            for (int i = 0; i < messages.Count; i++)
-                Debug.Log(messages[i].GetName());
-            s = false;
-            move.Stop();
-        }
-        
     }
-
 }

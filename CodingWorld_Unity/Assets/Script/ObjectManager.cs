@@ -16,7 +16,8 @@ public class ObjectManager : MonoBehaviour
         //初始化ControlObject 部件,Visual
         if (eye != null)
         {
-            addAnimalScript("UserScript1");
+            Debug.Log("Animal");
+            //addAnimalScript("UserScript1");
             BasicSight sight = eye.GetComponent<BasicSight>();
             Movable move = GetComponent<Movable>();
             if (user == null)
@@ -56,6 +57,7 @@ public class ObjectManager : MonoBehaviour
         a.SetMovable(gameObject.GetComponent<Movable>());
 
         user = a;
+        user.Begin();
         Debug.Log("add Finished");
     }
 

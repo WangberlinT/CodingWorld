@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Exception : MonoBehaviour
+namespace CodeWorldInterface
 {
-    // Start is called before the first frame update
-    void Start()
+    public class AnimalWithoutEyeException : ApplicationException
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public AnimalWithoutEyeException() { }
+        public AnimalWithoutEyeException(string Message) : base(Message) { }
     }
 }
+
+

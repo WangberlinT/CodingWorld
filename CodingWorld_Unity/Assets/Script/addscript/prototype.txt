@@ -12,6 +12,8 @@ public class moban : Animal, SightObserver
 
     }
 
+    public moban() { }
+
     public override IEnumerator Run()
     {
         Begin();

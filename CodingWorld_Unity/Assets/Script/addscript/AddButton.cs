@@ -18,7 +18,7 @@ public class AddButton : MonoBehaviour
         Debug.Log(pet);
         string script = GameObject.Find("ScriptInputField").GetComponent<InputField>().text;
         ObjectManager obj = GameObject.Find(pet).GetComponent<ObjectManager>();
-        //obj.add(script);
+        obj.addAnimalScript(script);
         GameObject.Find("AddCanvas").SetActive(false);
 
     }
