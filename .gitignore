@@ -53,3 +53,27 @@ sysinfo.txt
 /CodingWorld_Unity/ehthumbs.db
 /CodingWorld_Unity/Thumbs.db
 
+# ================= #
+# C# Project ignore #
+# ================= #
+
+# Build results
+/CompilerApp/bin/[Dd]ebug/
+/CompilerApp/[Dd]ebugPublic/
+/CompilerApp/[Rr]elease/
+/CompilerApp/[Rr]eleases/
+/CompilerApp/bin/
+/CompilerApp/x64/
+/CompilerApp/x86/
+/CompilerApp/[Ww][Ii][Nn]32/
+/CompilerApp/[Aa][Rr][Mm]/
+/CompilerApp/[Aa][Rr][Mm]64/
+/CompilerApp/bld/
+/CompilerApp/[Bb]in/
+/CompilerApp/[Oo]bj/
+/CompilerApp/[Ll]og/
+/CompilerApp/[Ll]ogs/
+
+# VS directory
+/CompilerApp/.vs/
+

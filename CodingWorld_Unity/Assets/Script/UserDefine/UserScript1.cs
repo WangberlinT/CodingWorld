@@ -23,15 +23,13 @@ public class UserScript1 : Animal, SightObserver
 
     public override IEnumerator Task()
     {
-        Debug.Log("Animal! UP");
-        sight.SightUP(30f);
-        yield return new WaitForSeconds(1);
-        sight.SightDown(30f);
         yield return new WaitForSeconds(1);
         while (true)
         {
-            move.follow("followman");
-            yield return new WaitForFixedUpdate();
+            move.MoveTo(move.Forward(2),2);
+            if (s == false)
+                break;
+            yield return new WaitForSeconds(1.1f);
         }
 
     }
