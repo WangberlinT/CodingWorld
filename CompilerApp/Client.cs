@@ -4,7 +4,7 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-namespace CsharpComplier
+namespace CompilerServer
 {
     class Client
     {
@@ -17,11 +17,13 @@ namespace CsharpComplier
             this.id = id;
             this.tcp = new TCP(id);
         }
+
         public class TCP
         {
             public TcpClient socket;
             private readonly int id;
             private NetworkStream stream;
+            private Packet receivedData;
             private byte[] receiveBuffer;
 
             public TCP(int id)
@@ -34,36 +36,98 @@ namespace CsharpComplier
                 this.socket = socket;
                 socket.ReceiveBufferSize = DATABUFFER;
                 socket.SendBufferSize = DATABUFFER;
+                receivedData = new Packet();
 
                 stream = socket.GetStream();
                 receiveBuffer = new byte[DATABUFFER];
 
                 stream.BeginRead(receiveBuffer, 0, DATABUFFER, ReceiveCallback, null);
+                ServerSend.Welcome(id, "[Info]Ready to compile source code.");
             }
 
-            private void ReceiveCallback(IAsyncResult result)
+            public void SendData(Packet packet)
             {
                 try
                 {
-                    int bytelen = stream.EndRead(result);
-                    if(bytelen <= 0)
+                    if (socket != null)
                     {
-                        // block
-                        Console.WriteLine("[Info] Stream end");
+                        stream.BeginWrite(packet.ToArray(), 0, packet.Length(), null, null);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error sending data to player {id} via TCP: {e}");
+                }
+            }
+
+            private void ReceiveCallback(IAsyncResult _result)
+            {
+                try
+                {
+                    int _byteLength = stream.EndRead(_result);
+                    if (_byteLength <= 0)
+                    {
+                        // TODO: disconnect
                         return;
                     }
 
-                    byte[] data = new byte[DATABUFFER];
-                    Array.Copy(receiveBuffer, data, DATABUFFER);
-                    //TODO handle data
+                    byte[] _data = new byte[_byteLength];
+                    Array.Copy(receiveBuffer, _data, _byteLength);
 
-                    Array.Clear(receiveBuffer, 0, DATABUFFER);
+                    receivedData.Reset(HandleData(_data));
                     stream.BeginRead(receiveBuffer, 0, DATABUFFER, ReceiveCallback, null);
                 }
-                catch(Exception e)
+                catch (Exception _ex)
                 {
-                    Console.WriteLine($"[Error] Error receiving TCP data:{e}");
+                    Console.WriteLine($"Error receiving TCP data: {_ex}");
+                    // TODO: disconnect
                 }
+            }
+
+            private bool HandleData(byte[] _data)
+            {
+                int _packetLength = 0;
+
+                receivedData.SetBytes(_data);
+
+                if (receivedData.UnreadLength() >= 4)
+                {
+                    _packetLength = receivedData.ReadInt();
+                    if (_packetLength <= 0)
+                    {
+                        return true;
+                    }
+                }
+
+                while (_packetLength > 0 && _packetLength <= receivedData.UnreadLength())
+                {
+                    byte[] _packetBytes = receivedData.ReadBytes(_packetLength);
+                    ThreadManager.ExecuteOnMainThread(() =>
+                    {
+                        using (Packet _packet = new Packet(_packetBytes))
+                        {
+                            int _packetId = _packet.ReadInt();
+                            Server.packetHandlers[_packetId](id, _packet);
+                        }
+                    });
+
+                    _packetLength = 0;
+                    if (receivedData.UnreadLength() >= 4)
+                    {
+                        _packetLength = receivedData.ReadInt();
+                        if (_packetLength <= 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                if (_packetLength <= 1)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
     }

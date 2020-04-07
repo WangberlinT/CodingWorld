@@ -2,21 +2,44 @@
 using System.IO;
 using System.Globalization;
 using System.CodeDom.Compiler;
-using System.Text;
-using Microsoft.CSharp;
-using Microsoft.VisualBasic;
+using System.Threading;
 
-namespace CsharpComplier
+namespace CompilerServer
 {
     class Program
     {
+        private static bool isRunning = false;
+
         static void Main(string[] args)
         {
-            //Build a server
-            Console.Title = "Compiler Server";
+            Console.Title = "Game Server";
+            isRunning = true;
 
-            Server.Start(2,10000);
-            Console.ReadKey();
+            Thread mainThread = new Thread(new ThreadStart(MainThread));
+            mainThread.Start();
+
+            Server.Start(50, 26950);
+        }
+
+        private static void MainThread()
+        {
+            Console.WriteLine($"Main thread started. Running at {Constants.TICKS_PER_SEC} ticks per second.");
+            DateTime _nextLoop = DateTime.Now;
+
+            while (isRunning)
+            {
+                while (_nextLoop < DateTime.Now)
+                {
+                    GameLogic.Update();
+
+                    _nextLoop = _nextLoop.AddMilliseconds(Constants.MS_PER_TICK);
+
+                    if (_nextLoop > DateTime.Now)
+                    {
+                        Thread.Sleep(_nextLoop - DateTime.Now);
+                    }
+                }
+            }
         }
 
         public static bool CompileExecutable(String sourceName)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace CsharpComplier
+namespace CompilerServer
 {
     class Server
     {
@@ -13,6 +13,8 @@ namespace CsharpComplier
         public static int port;
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
         private static TcpListener tcpListener;
+        public delegate void PacketHandler(int _fromClient, Packet _packet);
+        public static Dictionary<int, PacketHandler> packetHandlers;
         public static void Start(int max_conn, int _port)
         {
             maxConnection = max_conn;
@@ -38,6 +40,7 @@ namespace CsharpComplier
             {
                 if(clients[i].tcp.socket == null)
                 {
+                    //TODO prompt client sending code
                     clients[i].tcp.Connect(_client);
                     return;
                 }
@@ -48,10 +51,16 @@ namespace CsharpComplier
 
         private static void InitializeServerData()
         {
-            for(int i = 1;i <= maxConnection;i ++)
+            for (int i = 1; i <= maxConnection; i++)
             {
                 clients.Add(i, new Client(i));
             }
+
+            packetHandlers = new Dictionary<int, PacketHandler>()
+            {
+                { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived }
+            };
+            Console.WriteLine("Initialized packets.");
         }
     }
 }
