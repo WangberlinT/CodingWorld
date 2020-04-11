@@ -7,14 +7,18 @@ using System.Net.Sockets;
 
 namespace CompilerServer
 {
+    /*
+     * Server 类维护TCP连接，记录Client连接状态，接受Client发来的内容
+     */
     class Server
     {
         public static int maxConnection;
         public static int port;
         public static Dictionary<int, Client> clients = new Dictionary<int, Client>();
-        private static TcpListener tcpListener;
-        public delegate void PacketHandler(int _fromClient, Packet _packet);
+        public delegate void PacketHandler(int _fromClient, Packet _packet);//声明一个向Client 发包的方法类型
         public static Dictionary<int, PacketHandler> packetHandlers;
+
+        private static TcpListener tcpListener;
         public static void Start(int max_conn, int _port)
         {
             maxConnection = max_conn;
@@ -30,6 +34,10 @@ namespace CompilerServer
             Console.WriteLine($"Server started on {port}");
         }
 
+        /*
+         * 异步回调函数，当TCP连接建立时调用(在另外一个线程中执行)
+         * 建立和Client的连接，保存Client信息
+         */
         private static void TCPConnectCallback(IAsyncResult _result)
         {
             TcpClient _client = tcpListener.EndAcceptTcpClient(_result);
@@ -40,7 +48,7 @@ namespace CompilerServer
             {
                 if(clients[i].tcp.socket == null)
                 {
-                    //TODO prompt client sending code
+                    //TODO
                     clients[i].tcp.Connect(_client);
                     return;
                 }
@@ -56,10 +64,10 @@ namespace CompilerServer
                 clients.Add(i, new Client(i));
             }
 
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                { (int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived }
-            };
+            packetHandlers = new Dictionary<int, PacketHandler>();
+            //添加两个包处理方法，分别处理连接信息和代码信息
+            packetHandlers.Add((int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived);
+            packetHandlers.Add((int)ClientPackets.code, ServerHandle.CodeReceived);
             Console.WriteLine("Initialized packets.");
         }
     }

@@ -42,6 +42,7 @@ namespace CompilerServer
                 receiveBuffer = new byte[DATABUFFER];
 
                 stream.BeginRead(receiveBuffer, 0, DATABUFFER, ReceiveCallback, null);
+                //提醒Client 发送code
                 ServerSend.Welcome(id, "[Info]Ready to compile source code.");
             }
 
@@ -64,7 +65,7 @@ namespace CompilerServer
             {
                 try
                 {
-                    int _byteLength = stream.EndRead(_result);
+                    int _byteLength = stream.EndRead(_result);//在这里等待异步操作
                     if (_byteLength <= 0)
                     {
                         // TODO: disconnect

@@ -24,8 +24,13 @@ public class UIManager : MonoBehaviour
 
     public void ConnectedToServer()
     {
-        StartMenu.SetActive(false);
-        userInput.interactable = false;
+        //StartMenu.SetActive(false);
+        //userInput.interactable = false;
         Client.instance.ConnectedToServer();
+    }
+
+    public void Send()
+    {
+        ClientSend.SendCode();
     }
 }

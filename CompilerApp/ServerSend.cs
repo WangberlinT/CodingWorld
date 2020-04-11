@@ -4,6 +4,12 @@ using System.Text;
 
 namespace CompilerServer
 {
+    /*
+     * ServerSend 包含了从Server端向Client端发送信息的一些方法
+     * SendTCPData: 以Packet形式发送
+     * SendTCPDataToAll: 给所有Client 发送
+     * Welcome: 向Client 发送字符串
+     */
     class ServerSend
     {
         private static void SendTCPData(int _toClient, Packet _packet)
