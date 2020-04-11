@@ -7,6 +7,7 @@ using System.IO;
 public class showOnfield : MonoBehaviour
 {
     public InputField iptf;
+    public TextAsset txA;
     private void Awake()
     {
         show();
@@ -14,9 +15,9 @@ public class showOnfield : MonoBehaviour
 
     public void show()
     {
-        StreamReader sr = new StreamReader("Assets\\Script\\addscript\\prototype.txt");
-        string contain = sr.ReadToEnd();
-        iptf.text = contain;
+        //StreamReader sr = new StreamReader("Assets\\Script\\addscript\\prototype.txt");
+        //string contain = sr.ReadToEnd();
+        iptf.text = txA.text;
 
     }
 }

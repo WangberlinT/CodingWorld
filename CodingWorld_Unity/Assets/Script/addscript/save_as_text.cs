@@ -4,7 +4,9 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
-
+using InGameCompiler;
+using System.Diagnostics;
+using System;
 
 public class save_as_text : MonoBehaviour
 {
@@ -19,15 +21,14 @@ public class save_as_text : MonoBehaviour
 
     public void ButtonOnClickEvent()
     {
-        string path="Assets\\TXT\\";
-        Debug.Log("push Button");
-        string save_value = GameObject.Find("mainbodyinputField").GetComponent<InputField>().text;
-        Debug.Log(save_value);
+        UnityEngine.Debug.Log("push Button");
+        string code = GameObject.Find("mainbodyinputField").GetComponent<InputField>().text;
         string pet_name = GameObject.Find("PetnameInputField").GetComponent<InputField>().text;
-        save_value=save_value.Replace("moban", pet_name);
-        string[] in_str = save_value.Split(new char[] { '\r','\n'},System.StringSplitOptions.RemoveEmptyEntries);
-        File.WriteAllLines(path+pet_name+".cs",in_str );
-        AssetDatabase.Refresh();
+        code=code.Replace("moban", pet_name);
+        char[] splitter = { '\r', '\n' };
+        File.WriteAllLines("./complierhelper/code.cs",code.Split(splitter, StringSplitOptions.RemoveEmptyEntries));
+        Process.Start("./complierhelper/ConsoleApp1.exe","code.cs "+pet_name);
+
         GameObject.Find("WriteCanvas").SetActive(false);
 
     }

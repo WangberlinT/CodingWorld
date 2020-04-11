@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iptf: {fileID: 23330778}
+  txA: {fileID: 0}
 --- !u!4 &46132867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: b0d08926a7875684cafa21bd19c7a300, type: 3}
@@ -981,7 +982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &459374205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3318,8 +3319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   add: {fileID: 359961249}
   wrt: {fileID: 1688380545}
-  movement: {fileID: 0}
-  spin: {fileID: 0}
 --- !u!114 &1907486027
 MonoBehaviour:
   m_ObjectHideFlags: 0

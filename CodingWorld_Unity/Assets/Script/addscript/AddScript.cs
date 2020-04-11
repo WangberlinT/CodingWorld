@@ -8,8 +8,6 @@ public class AddScript : MonoBehaviour
 {
     public GameObject add;
     public GameObject wrt;
-    public Component movement;
-    public Component spin;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,20 +32,14 @@ public class AddScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.E))
         {
             add.gameObject.SetActive(true);
-            //测试用，稍后删除
-            gameObject.GetComponent<Move>().enabled = false;
-            gameObject.GetComponent<Spin>().enabled = false;
         }          
         
     }
     void Write()
     {
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             wrt.gameObject.SetActive(true);
-            //测试用，稍后删除
-            gameObject.GetComponent<Move>().enabled = false;
-            gameObject.GetComponent<Spin>().enabled = false;
         }
     }
 }

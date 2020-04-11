@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Control;
+using CodeWorldInterface;
+using Events;
+public class moban : Animal, SightObserver
+{
+    bool s = true;
+    public moban(BasicSight s, Movable m) : base(s, m)
+    {
+
+    }
+
+    public moban() { }
+
+    public override IEnumerator Run()
+    {
+        Begin();
+        yield return Task();
+        End();
+    }
+
+    public override IEnumerator Task()
+    {
+        // write code here
+       
+
+    }
+
+    public void OnScannedObject(ScannedObjectEvent e)
+    {
+
+    }
+
+}

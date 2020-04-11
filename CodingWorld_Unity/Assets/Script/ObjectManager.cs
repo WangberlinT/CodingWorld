@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Control;
+
+using System.IO;
 using System.Reflection;
 using System;
 
@@ -10,7 +12,8 @@ public class ObjectManager : MonoBehaviour
     public ControlObject user;
     public GameObject eye;
     private VisualMessage visual;
-    
+    FileStream fs;
+
     void Start()
     {
         //初始化ControlObject 部件,Visual
@@ -46,18 +49,31 @@ public class ObjectManager : MonoBehaviour
         UpdateVisualMessage();
     }
 
-    public void addAnimalScript(string classname)
+    public void addAnimalScript(string script)
     {
-        Debug.Log("AddAnimalScript!");
-        Assembly asm = Assembly.GetExecutingAssembly();
-        Animal a = (Animal)asm.CreateInstance(classname);
-        Type t = a.GetType();
 
+        fs = new FileStream("F:/BaiduNetdiskDownload/Majiang/userCode/" + script + ".dll", FileMode.OpenOrCreate);
+
+        byte[] b = new byte[fs.Length];
+
+        fs.Read(b, 0, b.Length);
+
+        fs.Dispose();
+
+        fs.Close();
+
+        Assembly assembly = Assembly.LoadFile("F:\\BaiduNetdiskDownload\\Majiang\\userCode\\" + script + ".dll");
+
+        Type type = assembly.GetType(script);
+        Debug.Log("AddAnimalScript!");
+        Animal a =(Animal) assembly.CreateInstance(script);
         a.SetBasicSight(eye.GetComponent<BasicSight>());
         a.SetMovable(gameObject.GetComponent<Movable>());
 
         user = a;
         user.Begin();
+        gameObject.AddComponent(type);
+        gameObject.AddComponent(type);
         Debug.Log("add Finished");
     }
 
