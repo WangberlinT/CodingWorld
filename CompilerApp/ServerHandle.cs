@@ -25,9 +25,37 @@ namespace CompilerServer
 
             ErrorCheck(_fromClient, _clientIdCheck);
 
-            //TODO: handle content 编译content, 最好写成一个新的类的静态方法。
+            //TODO: 为Compiler 添加编译文件内容
+            Compiler compiler = Compiler.GetInstance();
+            compiler.SetCode(content);
             Console.WriteLine($"[Info]Code\n{content}");
-            ServerSend.Welcome(_fromClient, "Compiling...");
+            if (compiler.ConditionCheck())
+            {
+                ServerSend.Welcome(_fromClient, "[Info]Compiling...");
+                compiler.Compile();
+                ServerSend.Welcome(_fromClient, "[Info]Finished!");
+            }
+                
+            
+        }
+
+        public static void ScriptNameReceived(int _fromClient, Packet _packet)
+        {
+            int _clientIdCheck = _packet.ReadInt();
+            string content = _packet.ReadString();
+
+            ErrorCheck(_fromClient, _clientIdCheck);
+            //TODO: 为Compiler 添加编译文件名
+            Compiler compiler = Compiler.GetInstance();
+            compiler.SetName(content);
+            Console.WriteLine($"[Info]file name:{content}\n");
+            if (compiler.ConditionCheck())
+            {
+                compiler.Compile();
+                ServerSend.Welcome(_fromClient, "Compiling...");
+                ServerSend.Welcome(_fromClient, "[Info]Finished!");
+            }
+
         }
 
         private static void ErrorCheck(int _fromClient, int _clientIdCheck)

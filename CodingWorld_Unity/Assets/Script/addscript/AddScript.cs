@@ -32,14 +32,16 @@ public class AddScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.E))
         {
             add.gameObject.SetActive(true);
+            
         }          
         
     }
     void Write()
     {
-        if (Input.GetKeyUp(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             wrt.gameObject.SetActive(true);
+            Client.instance.ConnectedToServer();
         }
     }
 }

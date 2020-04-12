@@ -32,6 +32,13 @@ namespace CompilerServer
             tcpListener.BeginAcceptTcpClient(TCPConnectCallback, null);
 
             Console.WriteLine($"Server started on {port}");
+            Console.WriteLine("Push F1 to exit");
+            string command;
+            while(Console.ReadKey().Key != ConsoleKey.F1)
+            {
+                //忙等TODO: 添加Interrupt
+            }
+            System.Environment.Exit(0);
         }
 
         /*
@@ -68,6 +75,7 @@ namespace CompilerServer
             //添加两个包处理方法，分别处理连接信息和代码信息
             packetHandlers.Add((int)ClientPackets.welcomeReceived, ServerHandle.WelcomeReceived);
             packetHandlers.Add((int)ClientPackets.code, ServerHandle.CodeReceived);
+            packetHandlers.Add((int)ClientPackets.scriptName, ServerHandle.ScriptNameReceived);
             Console.WriteLine("Initialized packets.");
         }
     }

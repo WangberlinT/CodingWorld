@@ -51,18 +51,9 @@ public class ObjectManager : MonoBehaviour
 
     public void addAnimalScript(string script)
     {
-
-        fs = new FileStream("F:/BaiduNetdiskDownload/Majiang/userCode/" + script + ".dll", FileMode.OpenOrCreate);
-
-        byte[] b = new byte[fs.Length];
-
-        fs.Read(b, 0, b.Length);
-
-        fs.Dispose();
-
-        fs.Close();
-
-        Assembly assembly = Assembly.LoadFile("F:\\BaiduNetdiskDownload\\Majiang\\userCode\\" + script + ".dll");
+        
+        //读取程序集路径
+        Assembly assembly = Assembly.LoadFile("D:\\Data of Wangberlin\\SweetyAndDoggy\\CodingWorld\\UserDLL\\" + script + ".dll");
 
         Type type = assembly.GetType(script);
         Debug.Log("AddAnimalScript!");

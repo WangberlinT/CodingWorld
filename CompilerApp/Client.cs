@@ -68,7 +68,9 @@ namespace CompilerServer
                     int _byteLength = stream.EndRead(_result);//在这里等待异步操作
                     if (_byteLength <= 0)
                     {
-                        // TODO: disconnect
+                        //disconnect set this socket = null
+                        Console.WriteLine($"[Info] Client {id} disconnect");
+                        socket = null;
                         return;
                     }
 
