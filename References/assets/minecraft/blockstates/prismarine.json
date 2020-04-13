@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "": [
+          { "model": "block/prismarine", "weight": 16 },
+          { "model": "block/prismarine", "weight": 8, "x": 90 },
+          { "model": "block/prismarine", "weight": 8, "x": 180 },
+          { "model": "block/prismarine", "weight": 8, "x": 270 }
+        ]
+    }
+}

@@ -51,9 +51,15 @@ public class ObjectManager : MonoBehaviour
 
     public void addAnimalScript(string script)
     {
+
+        //读取当前运行路径
+        string temp_dir = Directory.GetCurrentDirectory();
+        string dll_dir = temp_dir + "\\CodingWorld_Data\\UserDll\\";
+        Debug.Log(dll_dir);
+        //Assembly assembly = Assembly.LoadFile(dll_dir + script + ".dll");
         
-        //读取程序集路径
-        Assembly assembly = Assembly.LoadFile("D:\\Data of Wangberlin\\SweetyAndDoggy\\CodingWorld\\UserDLL\\" + script + ".dll");
+        //在编辑模式下使用下面的 TODO: 通过运行状态自动切换
+        Assembly assembly = Assembly.LoadFile("D:\\Data of Wangberlin\\SweetyAndDoggy\\CodingWorld\\Release\\CodingWorld_Data\\UserDll\\" + script + ".dll");
 
         Type type = assembly.GetType(script);
         Debug.Log("AddAnimalScript!");
