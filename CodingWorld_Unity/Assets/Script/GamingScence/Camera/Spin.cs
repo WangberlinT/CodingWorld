@@ -28,7 +28,8 @@ public class Spin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ViewRotate();
+        if (gameObject.GetComponent<ConflictControl>().notgamescene) { ViewRotate(); }
+        
     }
 
     void ViewRotate()
