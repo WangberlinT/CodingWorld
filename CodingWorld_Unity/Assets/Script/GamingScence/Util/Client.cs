@@ -36,6 +36,11 @@ public class Client : MonoBehaviour
         tcp = new TCP();
     }
 
+    public static Client GetInstance()
+    {
+        return instance;
+    }
+
     public void ConnectedToServer()
     {
         InitializeClientData();
@@ -58,6 +63,13 @@ public class Client : MonoBehaviour
             receiveBuffer = new byte[DATABUFFER];
             Debug.Log("Begin Connect...");
             socket.BeginConnect(instance.ip, instance.port, ConnectCallback, socket);
+        }
+
+        public void Disconnect()
+        {
+            //与服务器断开连接
+            Debug.Log("disconnect");
+            socket.Close();
         }
 
         public void SendData(Packet _packet)

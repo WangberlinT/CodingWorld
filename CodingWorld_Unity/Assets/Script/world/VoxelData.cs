@@ -6,6 +6,14 @@ public static class VoxelData
 {
     public static readonly int ChunkWidth = 5;
     public static readonly int ChunkHeight = 5;
+
+    public static readonly int TextureAtlasSizeInBlocks = 4;
+
+    public static float NormalizedBlockTextureSize
+    {
+        get { return 1f / TextureAtlasSizeInBlocks; }
+    }
+
     public static readonly Vector3[] voxelVertex = new Vector3[8]
     {
         //(x,y,z) Unity 里 y 正方向朝上

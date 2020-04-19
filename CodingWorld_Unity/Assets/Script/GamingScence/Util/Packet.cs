@@ -14,7 +14,8 @@ public enum ServerPackets
 public enum ClientPackets
 {
     welcomeReceived = 1,
-    code = 2
+    code = 2,
+    scriptName = 3
 }
 
 public class Packet : IDisposable

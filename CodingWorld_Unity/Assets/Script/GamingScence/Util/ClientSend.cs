@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class ClientSend : MonoBehaviour
 {
+    
+
+    public static void SendName(string name)
+    {
+        Packet _packet = new Packet((int)ClientPackets.scriptName);
+        _packet.Write(Client.instance.id);
+        _packet.Write(name);
+        Debug.Log("sending...");
+        SendTCPData(_packet);
+    }
+
     //调用此方法以发送code
-    public static void SendCode()
+    public static void SendCode(string code)
     {
         Packet _packet = new Packet((int)ClientPackets.code);
         _packet.Write(Client.instance.id);
-        _packet.Write(UIManager.instance.userInput.text);
+        _packet.Write(code);
         Debug.Log("sending...");
         SendTCPData(_packet);
     }
@@ -25,7 +36,7 @@ public class ClientSend : MonoBehaviour
         using (Packet _packet = new Packet((int)ClientPackets.welcomeReceived))//此处不太明白
         {
             _packet.Write(Client.instance.id);
-            _packet.Write(UIManager.instance.userInput.text);
+            _packet.Write("Ready to send code");
 
             SendTCPData(_packet);
         }
