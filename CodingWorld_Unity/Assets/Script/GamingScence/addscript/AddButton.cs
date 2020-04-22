@@ -34,6 +34,7 @@ public class AddButton : MonoBehaviour
         obj.addAnimalScript(script);
         GameObject petgo = GameObject.Find(pet);
         GameObject.Find("AddCanvas").SetActive(false);
+        GameObject.Find("Main Camera").GetComponent<ConflictControl>().notgamescene = true;
 
     }
     public Type GetType(string script)
