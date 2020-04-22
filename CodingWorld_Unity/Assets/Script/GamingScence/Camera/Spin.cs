@@ -29,7 +29,7 @@ public class Spin : MonoBehaviour
     void Update()
     {
         if (gameObject.GetComponent<ConflictControl>().notgamescene) { ViewRotate(); }
-        
+        //ViewRotate();
     }
 
     void ViewRotate()
