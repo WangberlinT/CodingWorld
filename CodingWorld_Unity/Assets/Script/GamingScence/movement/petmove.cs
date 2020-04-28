@@ -19,47 +19,16 @@ public class petmove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        changemode();
-        
-        if (state == PetState.Loop&&first)
+        if (!first)
         {
-            Vector3[] p = { new Vector3(0,0.5f,0),new Vector3(1,0.5f,1),new Vector3(2,0.5f,3),new Vector3(-1,0.5f,-1),gameObject.transform.position };
-            mo.MovePath(p,5) ;
-            first = false;
+            mo.MoveTo(mo.Forward(4), 2f);
+            //mo.jumpForward();
+            first = true;
         }
-        if (state == PetState.Follow)
-        {
-             if ((gameObject.transform.position - master.transform.position).sqrMagnitude > 9.5f)
-                    {
-                         mo.follow("master");
-                    }
-        }
-
      
     }
 
-    public void changemode()
-    {
-        
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            iTween.Stop();
-            state = PetState.Follow;
-            first = true;
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            iTween.Stop();
-            state = PetState.Empty;
-            first = true;
-        }
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            iTween.Stop();
-            state = PetState.Loop;
-            first = true;
-        }
-    }
+   
 }
 
 enum PetState {Empty,Follow,Loop }
