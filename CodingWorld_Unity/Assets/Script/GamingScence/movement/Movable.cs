@@ -10,14 +10,36 @@ public class Movable : BasicMovement
     private Rigidbody rb;
     private Vector3 startpos;
     private float height;
+    private Vector3 direction;
+    private float dis_to_ground;
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        height = rb.position.y;
-    }
         
-    
+        height = transform.localScale.y/2;
+    }
 
+    private void Update()
+    {
+        
+        groundcheck();
+        Debug.Log(dis_to_ground+" groud");
+        if (this.transform.up != new Vector3(0, 1, 0)) {
+            Debug.Log(1);
+            this.transform.localEulerAngles=direction;
+        }
+        else
+        {
+            direction = this.transform.localEulerAngles;
+        }
+        
+
+    }
+
+    public void setGravity(bool b)
+    {
+        rb.useGravity = b;
+    }
 
     public Vector3 getHeading()
     {
@@ -122,10 +144,11 @@ public class Movable : BasicMovement
 
     public void MoveTo(Vector3 position, float speed)
     {
-
-        iTween.MoveTo(gameObject, iTween.Hash("position", position,
-                                                "speed", speed
-                                                ));
+       
+            iTween.MoveTo(gameObject, iTween.Hash("position", position,
+                                                    "speed", speed
+                                                    ));
+        
     }
 
     public void MoveToR(Vector3 position, float speed)
@@ -190,9 +213,37 @@ public class Movable : BasicMovement
         GameObject go = GameObject.Find(objectname);
         follow(go);
     }
+    public void jumpForward() 
+    {
+        rb.AddForce(new Vector3(this.transform.forward.x,2* Vector3.up.y, this.transform.forward.z) * 200f);
+    }
+
     public void Stop()
     {
         iTween.Stop(gameObject);
+    }
+    bool groundcheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit))//Physics.Raycast(射线发出位置，射线方向，射线长度）
+        {
+            dis_to_ground = hit.distance-height;
+            return true;
+        }
+        else
+            return false;
+    }
+   
+    float groundcheck(Vector3 desposition)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(desposition, transform.TransformDirection(Vector3.down), out hit))//Physics.Raycast(射线发出位置，射线方向，射线长度）
+        {
+           
+            return hit.distance - height;
+        }
+        else
+            return -1;
     }
 
 }
