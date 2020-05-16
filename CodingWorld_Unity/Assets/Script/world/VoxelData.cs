@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class VoxelData
 {
-    public static readonly int ChunkWidth = 5;
-    public static readonly int ChunkHeight = 5;
+    public static readonly int ChunkWidth = 10;
+    public static readonly int ChunkHeight = 10;
     public static readonly int WorldSizeInChunks = 100;
 
     public static int WorldSizeInVoxels
@@ -17,6 +17,7 @@ public static class VoxelData
 
     public static readonly int TextureAtlasSizeInBlocks = 4;
 
+    //贴图单位化，这里为0.25
     public static float NormalizedBlockTextureSize
     {
         get { return 1f / TextureAtlasSizeInBlocks; }
@@ -59,6 +60,7 @@ public static class VoxelData
 
     public static readonly Vector2[] voxelUvs = new Vector2[6]
     {
+        //Texture 映射，两个三角形
         new Vector2(0.0f,0.0f),
         new Vector2(0.0f,1.0f),
         new Vector2(1.0f,0.0f),
