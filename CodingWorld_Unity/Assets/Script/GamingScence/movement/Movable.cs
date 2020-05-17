@@ -23,7 +23,7 @@ public class Movable : BasicMovement
     {
         
         groundcheck();
-        Debug.Log(dis_to_ground+" groud");
+        //Debug.Log(dis_to_ground+" groud");
         if (this.transform.up != new Vector3(0, 1, 0)) {
             Debug.Log(1);
             this.transform.localEulerAngles=direction;
