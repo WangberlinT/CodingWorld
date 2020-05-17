@@ -91,7 +91,7 @@ public class Chunk
         get { return _isActive; }
         set 
         {
-            isActive = value;
+            _isActive = value;
             if (chunkObject != null)
                 chunkObject.SetActive(value);
         }

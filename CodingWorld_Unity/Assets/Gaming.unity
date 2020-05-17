@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -1244,6 +1244,7 @@ GameObject:
   - component: {fileID: 373911651}
   - component: {fileID: 373911653}
   - component: {fileID: 373911652}
+  - component: {fileID: 373911654}
   m_Layer: 5
   m_Name: Debug Screen
   m_TagString: Untagged
@@ -1313,6 +1314,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373911650}
   m_CullTransparentMesh: 0
+--- !u!114 &373911654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373911650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1171a6c4511fb674983ea6e37fa338f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &459374204
 GameObject:
   m_ObjectHideFlags: 0

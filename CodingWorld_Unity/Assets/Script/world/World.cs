@@ -14,7 +14,7 @@ public class World : MonoBehaviour
     public GameObject debugScreen;
 
     private Chunk[,] chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
-    private HashSet<ChunkCoord> activeChunks = new HashSet<ChunkCoord>();
+    private List<ChunkCoord> activeChunks = new List<ChunkCoord>();
     private ChunkCoord playerLastChunkCoord;
     private ChunkCoord playerChunkCoord;
     private List<ChunkCoord> chunkToCreate = new List<ChunkCoord>();
@@ -49,6 +49,13 @@ public class World : MonoBehaviour
         playerLastChunkCoord = playerChunkCoord;
     }
 
+    public int getActiveChunkListSize()
+    {
+        return activeChunks.Count;
+    }
+
+    public bool getChunkCreating() { return chunkCreating; }
+
     //初始化生成第一个区域块，只被调用一次
     void GenerateWorld()
     {
@@ -70,7 +77,6 @@ public class World : MonoBehaviour
         chunkCreating = true;
         while(chunkToCreate.Count > 0)
         {
-            Debug.Log("Create Chunk:(" + chunkToCreate[0].x + "," + chunkToCreate[0].z + ")");
             chunks[chunkToCreate[0].x, chunkToCreate[0].z].Init();
             chunkToCreate.RemoveAt(0);
             yield return null;
@@ -106,18 +112,19 @@ public class World : MonoBehaviour
                         chunks[x, z].isActive = true;
                         activeChunks.Add(new ChunkCoord(x, z));
                     }
-                }
-
-                for(int i = 0;i < inActiveChunk.Count; i++)
-                {
-                    if (inActiveChunk[i].Equals(new ChunkCoord(x, z)))
-                        inActiveChunk.RemoveAt(i);
+                    //将仍需显示的从列表中删除
+                    for (int i = 0; i < inActiveChunk.Count; i++)
+                    {
+                       if(inActiveChunk[i].Equals(new ChunkCoord(x, z)))
+                          inActiveChunk.RemoveAt(i);
+                     
+                    }
                 }
             }
         }
 
         Debug.Log("ActiveChunks Num = " + activeChunks.Count);
-
+        //剩余的都是不需要显示的，全部设置为false
         foreach (ChunkCoord c in inActiveChunk)
         {
             chunks[c.x, c.z].isActive = false;
@@ -158,12 +165,6 @@ public class World : MonoBehaviour
         else
             return 0;//air
     }
-
-    //void CreateNewChunk(int x,int z)
-    //{
-    //    chunks[x, z] = new Chunk(new ChunkCoord(x, z), this);
-    //    activeChunks.Add(new ChunkCoord(x, z));
-    //}
 
     bool IsChunkInWorld(ChunkCoord coord)
     {
