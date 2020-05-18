@@ -3192,6 +3192,7 @@ MonoBehaviour:
   mark:
     serializedVersion: 2
     m_Bits: 256
+  debugScreen: {fileID: 373911654}
 --- !u!1 &1365296247 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3998723649332458300, guid: 188fe50d5ee6d564dbec599c1ebe20fc, type: 3}

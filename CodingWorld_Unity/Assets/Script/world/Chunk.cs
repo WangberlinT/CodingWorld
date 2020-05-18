@@ -17,7 +17,7 @@ public class Chunk
     private List<int> triangles = new List<int>();
     private List<Vector2> uvs = new List<Vector2>();
     //voxelMap 记录 Chunk 中 block 的类型参数
-    private byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+    private int[,,] voxelMap = new int[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
     private World world;
     private bool _isActive;
     public bool isVoxelMapPopulated = false;
@@ -48,13 +48,13 @@ public class Chunk
         //初始化chunk 中block类型
         PopulateVoxelMap();
         //添加Chunk露出的面
-        CreateChunkMesh();
-        CreateMesh();
+        UpdateChunk();
+        
 
         meshCollider.sharedMesh = filter.mesh;
     }
 
-    void CreateChunkMesh()
+    void UpdateChunk()
     {
         for (int y = 0; y < VoxelData.ChunkHeight; y++)
         {
@@ -63,10 +63,20 @@ public class Chunk
                 for (int z = 0; z < VoxelData.ChunkWidth; z++)
                 {
                     if(world.blocktypes[voxelMap[x,y,z]].isSolid)
-                        AddVoxelDataToChunk(new Vector3(x, y, z));
+                        UpdateMeshData(new Vector3(x, y, z));
                 }
             }
         }
+
+        CreateMesh();
+    }
+
+    void ClearMeshData()
+    {
+        vertexIndex = 0;
+        vertices.Clear();
+        triangles.Clear();
+        uvs.Clear();
     }
 
     void PopulateVoxelMap()
@@ -115,7 +125,7 @@ public class Chunk
         return world.blocktypes[voxelMap[x, y, z]].isSolid;
     }
 
-    public byte GetVoxelFromGlobalVector3 (Vector3 pos)
+    private Vector3 GetVoxelPosInChunk(Vector3 pos)
     {
         int xCheck = Mathf.FloorToInt(pos.x);
         int yCheck = Mathf.FloorToInt(pos.y);
@@ -123,11 +133,40 @@ public class Chunk
 
         xCheck -= Mathf.FloorToInt(chunkObject.transform.position.x);
         zCheck -= Mathf.FloorToInt(chunkObject.transform.position.z);
-
-        return voxelMap[xCheck, yCheck, zCheck];
+        return new Vector3(xCheck, yCheck, zCheck);
     }
 
-    void AddVoxelDataToChunk(Vector3 pos)
+    public void EditVoxel(Vector3 pos, int newID)
+    {
+        Vector3 checkPos = GetVoxelPosInChunk(pos);
+        voxelMap[(int)checkPos.x, (int)checkPos.y, (int)checkPos.z] = newID;
+
+        UpdateChunk();
+    }
+
+    void UpdateSurroundingChunkVoxel(int x, int y, int z)
+    {
+        Vector3 thisVoxel = new Vector3(x, y, z);
+
+        for(int p = 0; p < 6; p ++)
+        {
+            Vector3 currentVoxel = thisVoxel + VoxelData.faceChecks[p];
+
+            if(!IsVoxelInChunk((int)currentVoxel.x, (int)currentVoxel.y, (int)currentVoxel.z))
+            {
+                world.GetChunkFromVector3(currentVoxel + position).UpdateChunk();
+            }
+        }
+    }
+
+    public int GetVoxelFromGlobalVector3 (Vector3 pos)
+    {
+        Vector3 checkPos = GetVoxelPosInChunk(pos);
+
+        return voxelMap[(int)checkPos.x, (int)checkPos.y, (int)checkPos.z];
+    }
+
+    void UpdateMeshData(Vector3 pos)
     {
         //6个面
         for (int p = 0; p < 6; p++)
@@ -136,7 +175,7 @@ public class Chunk
             if(!CheckVoxel(pos+ VoxelData.faceChecks[p]))
             {
                 //block 类型
-                byte blockID = voxelMap[(int)pos.x, (int)pos.y, (int)pos.z];
+                int blockID = voxelMap[(int)pos.x, (int)pos.y, (int)pos.z];
                 //设置每个面的参数，每个面由两个三角形构成，共6个顶点TODO:优化成4个顶点
                 for (int i = 0; i < 6; i++)
                 {
