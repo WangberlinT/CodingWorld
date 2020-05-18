@@ -10,6 +10,7 @@ public class DebugScreen : MonoBehaviour
 
     private float frameRate = 0;
     private float timer = 0;
+    private Dictionary<string,string> messages = new Dictionary<string, string>();
 
     void Start()
     {
@@ -20,6 +21,22 @@ public class DebugScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        text.text = MessageUpdate();
+
+        if(timer > 1f)
+        {
+            frameRate = (int)(1f / Time.unscaledDeltaTime);
+            timer = 0;
+        }
+        else
+        {
+            timer += Time.unscaledDeltaTime;
+        }
+    }
+
+    private string MessageUpdate()
+    {
+        //Default message
         Transform playerTrans = world.player.transform;
         string debugText = "[Debug] Init debug screen successfully!\n";
         debugText += frameRate + "fps";
@@ -32,18 +49,21 @@ public class DebugScreen : MonoBehaviour
         debugText += "\n";
 
         debugText += "ChunkCreating: " + world.getChunkCreating();
-
-
-        text.text = debugText;
-
-        if(timer > 1f)
+        debugText += "\n";
+        //------------------
+        //Pass message
+        foreach (KeyValuePair<string, string> kv in messages)
         {
-            frameRate = (int)(1f / Time.unscaledDeltaTime);
-            timer = 0;
+            debugText += "[" + kv.Key + "]";
+            debugText += "    ";
+            debugText += kv.Value;
+            debugText += "\n";
         }
-        else
-        {
-            timer += Time.unscaledDeltaTime;
-        }
+        return debugText;
+    }
+
+    public void LogMessage(string tag,string message)
+    {
+        messages[tag] = message;
     }
 }

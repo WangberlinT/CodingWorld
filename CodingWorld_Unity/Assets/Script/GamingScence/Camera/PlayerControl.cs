@@ -14,20 +14,32 @@ public class PlayerControl : MonoBehaviour
     public float up_max = 90f;
     public float down_max = -90f;
 
+    //------------Selection Control Public----------------
+    public float selectDistance = 5f;
+    public LayerMask mark;
+
     //------------Move Control Private-------------
     private Rigidbody rigidbody;
     private bool isJump = false;
-    private float checkIncrement;
+    private float checkIncrement = 0.5f;
 
     //------------View Control Private-------------
     private Transform camTrans;
     private float rotationX = 0f;
     private float rotationY = 0f;
 
+    //------------Debug Screen-------------------------
+    private DebugScreen debugScreen;
+
+
+    private const string TAG = "PlayerControl";
+    
+
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody>();
         camTrans = transform.Find("Main Camera");
+        debugScreen = GameObject.Find("Debug Screen").GetComponent<DebugScreen>();
     }
 
     void FixedUpdate()
@@ -54,7 +66,13 @@ public class PlayerControl : MonoBehaviour
             ViewRotate();
             if (Input.GetButtonDown("Jump"))
                 isJump = true;
+            placeCursorBlocks();
         }
+    }
+
+    private void GetPlayerInput()
+    {
+        //TODO: Input
     }
 
     private void ViewRotate()
@@ -72,7 +90,40 @@ public class PlayerControl : MonoBehaviour
     {
         //todo
         float step = checkIncrement;
-        Vector3 lastPos = new Vector3();
+        Ray ray = new Ray(camTrans.position, camTrans.forward);
+        Debug.DrawLine(ray.origin, ray.origin + ray.direction*selectDistance,Color.red);
+
+        
+
+        RaycastHit hitt = new RaycastHit();
+        Physics.Raycast(ray, out hitt, selectDistance);
+
+        Vector3 endPos = ray.origin + ray.direction * selectDistance;
+
+        if (hitt.transform != null)
+        {
+            endPos = hitt.point;
+
+            Vector3 placePos = endPos - ray.direction * step;
+            placePos.x = Mathf.FloorToInt(placePos.x);
+            placePos.y = Mathf.FloorToInt(placePos.y);
+            placePos.z = Mathf.FloorToInt(placePos.z);
+
+            highLightBlock.position = placePos;
+            placeBlock.position = placePos;
+
+            highLightBlock.gameObject.SetActive(true);
+            placeBlock.gameObject.SetActive(true);
+        }
+        else
+        {
+            highLightBlock.gameObject.SetActive(false);
+            placeBlock.gameObject.SetActive(false);
+        }
+        string debugMessage = string.Format("End point: {0}", endPos);
+        debugScreen.LogMessage(TAG, debugMessage);
+        Debug.DrawLine(ray.origin, endPos, Color.red);
+
     }
 
     void Jump()
