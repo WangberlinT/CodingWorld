@@ -36,10 +36,9 @@ public class PlayerControl : MonoBehaviour
     public DebugScreen debugScreen;
 
     //------------Build Block-------------------------
-    private int selectedBlockIndex = 0;
+    private int selectedBlockIndex = 1;
     private World world;
     private Text promptText;
-    private Vector3 breakSelected = Vector3.negativeInfinity;
 
 
     private const string TAG = "PlayerControl";
@@ -91,29 +90,30 @@ public class PlayerControl : MonoBehaviour
 
         float scrool = Input.GetAxis("Mouse ScrollWheel");
 
-        if(scrool != 0)
+        if (scrool != 0)
         {
-            if(scrool > 0)
+            if (scrool > 0)
             {
-                selectedBlockIndex = (selectedBlockIndex + 1)%world.blocktypes.Length;
+                selectedBlockIndex = (selectedBlockIndex + 1) % world.blocktypes.Length;
             }
             else
             {
                 int complete = world.blocktypes.Length - 1;
-                selectedBlockIndex = (selectedBlockIndex + complete)%world.blocktypes.Length;
+                selectedBlockIndex = (selectedBlockIndex + complete) % world.blocktypes.Length;
             }
 
             promptText.text = world.blocktypes[selectedBlockIndex].blockName + " selected";
         }
+        
 
         if(highLightBlock.gameObject.activeSelf)
         {
-            if(Input.GetMouseButton(0))
+            if(Input.GetMouseButtonDown(0))
             {
                 debugScreen.LogMessage("Click", "Left");
                 BreakBlock();
             }
-            else if(Input.GetMouseButton(1))
+            else if(Input.GetMouseButtonDown(1))
             {
                 debugScreen.LogMessage("Click", "Right");
                 CreateBlock();
@@ -124,12 +124,13 @@ public class PlayerControl : MonoBehaviour
     }
     private void CreateBlock()
     {
-        world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+        //not air
+        if(selectedBlockIndex != 0)
+            world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
     }
     private void BreakBlock()
     {
-        if(breakSelected != Vector3.negativeInfinity)
-            world.GetChunkFromVector3(breakSelected).EditVoxel(breakSelected, 0);
+        world.GetChunkFromVector3(highLightBlock.position).EditVoxel(highLightBlock.position, 0);
     }
 
     private void ViewRotate()
@@ -144,8 +145,6 @@ public class PlayerControl : MonoBehaviour
     }
     private void placeCursorBlocks()
     {
-        //clear
-        breakSelected = Vector3.negativeInfinity;
         //todo
         float step = checkIncrement;
         Ray ray = new Ray(camTrans.position, camTrans.forward);
@@ -166,8 +165,12 @@ public class PlayerControl : MonoBehaviour
             placePos.x = Mathf.FloorToInt(placePos.x);
             placePos.y = Mathf.FloorToInt(placePos.y);
             placePos.z = Mathf.FloorToInt(placePos.z);
+            Vector3 breakPos = endPos + ray.direction * step;
+            breakPos.x = Mathf.FloorToInt(breakPos.x);
+            breakPos.y = Mathf.FloorToInt(breakPos.y);
+            breakPos.z = Mathf.FloorToInt(breakPos.z);
 
-            highLightBlock.position = placePos;
+            highLightBlock.position = breakPos;
             placeBlock.position = placePos;
 
             highLightBlock.gameObject.SetActive(true);
@@ -181,7 +184,6 @@ public class PlayerControl : MonoBehaviour
         string debugMessage = string.Format("End point: {0}", endPos);
         debugScreen.LogMessage(TAG, debugMessage);
         Debug.DrawLine(ray.origin, endPos, Color.red);
-        breakSelected = endPos;
     }
 
     void Jump()

@@ -56,6 +56,8 @@ public class Chunk
 
     void UpdateChunk()
     {
+        ClearMeshData();
+
         for (int y = 0; y < VoxelData.ChunkHeight; y++)
         {
             for (int x = 0; x < VoxelData.ChunkWidth; x++)
@@ -76,7 +78,7 @@ public class Chunk
         vertexIndex = 0;
         vertices.Clear();
         triangles.Clear();
-        uvs.Clear();
+        uvs.Clear(); 
     }
 
     void PopulateVoxelMap()
@@ -141,6 +143,7 @@ public class Chunk
         Vector3 checkPos = GetVoxelPosInChunk(pos);
         voxelMap[(int)checkPos.x, (int)checkPos.y, (int)checkPos.z] = newID;
 
+        UpdateSurroundingChunkVoxel((int)checkPos.x, (int)checkPos.y, (int)checkPos.z);
         UpdateChunk();
     }
 
@@ -202,6 +205,7 @@ public class Chunk
         
         mesh.RecalculateNormals();
         filter.mesh = mesh;
+        meshCollider.sharedMesh = filter.mesh;
     }
 
     bool IsVoxelInChunk(int x, int y, int z)
