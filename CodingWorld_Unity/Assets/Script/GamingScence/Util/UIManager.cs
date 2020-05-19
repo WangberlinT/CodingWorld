@@ -14,12 +14,14 @@ public class UIManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
         }
         else if (instance != this)
         {
             Debug.Log("Instance already exist, destory object");
             Destroy(this);
         }
+        ConnectedToServer();
     }
 
     public void ConnectedToServer()
@@ -34,4 +36,10 @@ public class UIManager : MonoBehaviour
         ClientSend.SendCode(userInput.text);
         
     }
+    public void Send(string code)
+    {
+        ClientSend.SendCode(code);
+
+    }
+
 }

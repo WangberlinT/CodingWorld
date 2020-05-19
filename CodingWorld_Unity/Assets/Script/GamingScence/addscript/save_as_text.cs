@@ -25,9 +25,10 @@ public class save_as_text : MonoBehaviour
         string code = GameObject.Find("mainbodyinputField").GetComponent<InputField>().text;
         string pet_name = GameObject.Find("PetnameInputField").GetComponent<InputField>().text;
         code=code.Replace("moban", pet_name);
-        GameObject.Find("CodeEditor").GetComponent<UIManager>().Send();
+        code = pet_name + " moban " + code;
+        GameObject.Find("CodeEditor").GetComponent<UIManager>().Send(code);
         GameObject.Find("CodeEditor").SetActive(false);
-        GameObject.Find("Main Camera").GetComponent<ConflictControl>().notgamescene = true;
+        GameObject.Find("Player").GetComponent<ConflictControl>().notgamescene = true;
 
     }
 }

@@ -1,0 +1,2 @@
+Error(0): Error generating Win32 resource: 系统找不到指定的路径。 
+Error(0): Unable to delete temporary file 'f:\BaiduNetdiskDownload\Majiang\CodingWorld\CompilerApp\ConsoleApp2\ConsoleApp2\bin\userdll\CSCE4BEC3A625F94D1B9A68E9EA54C1AE56.TMP' used for default Win32 resource -- 系统找不到指定的路径。 

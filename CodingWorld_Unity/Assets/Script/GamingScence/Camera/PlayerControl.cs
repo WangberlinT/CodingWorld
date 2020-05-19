@@ -57,6 +57,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (gameObject.GetComponent<ConflictControl>().notgamescene)
         {
+            
             float moveY = 0;
             float moveX = Input.GetAxis("Horizontal") * speed;
             float moveZ = Input.GetAxis("Vertical") * speed;

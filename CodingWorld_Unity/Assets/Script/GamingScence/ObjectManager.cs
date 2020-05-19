@@ -51,8 +51,14 @@ public class ObjectManager : MonoBehaviour
 
     public void addAnimalScript(string script)
     {
-
-        fs = new FileStream("F:/BaiduNetdiskDownload/Majiang/userCode/" + script + ".dll", FileMode.OpenOrCreate);
+        string userDllpath = "";
+#if UNITY_EDITOR
+        userDllpath = "F:\\BaiduNetdiskDownload\\Majiang\\example\\CodingWorld_Data\\UserDll\\";
+#else
+        userDllpath=".\\CodingWorld_Data\\UserDll\\";
+#endif
+        Debug.Log(userDllpath);
+        fs = new FileStream(userDllpath + script + ".dll", FileMode.OpenOrCreate);
 
         byte[] b = new byte[fs.Length];
 
@@ -62,9 +68,10 @@ public class ObjectManager : MonoBehaviour
 
         fs.Close();
 
-        Assembly assembly = Assembly.LoadFile("F:\\BaiduNetdiskDownload\\Majiang\\userCode\\" + script + ".dll");
+        Assembly assembly = Assembly.LoadFile(userDllpath + script + ".dll");
 
         Type type = assembly.GetType(script);
+        Debug.Log(type);
         Debug.Log("AddAnimalScript!");
         Animal a =(Animal) assembly.CreateInstance(script);
         a.SetBasicSight(eye.GetComponent<BasicSight>());
@@ -72,7 +79,6 @@ public class ObjectManager : MonoBehaviour
 
         user = a;
         user.Begin();
-        gameObject.AddComponent(type);
         gameObject.AddComponent(type);
         Debug.Log("add Finished");
     }

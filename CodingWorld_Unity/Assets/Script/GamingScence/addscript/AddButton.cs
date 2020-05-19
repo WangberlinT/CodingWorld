@@ -32,9 +32,10 @@ public class AddButton : MonoBehaviour
         string script = GameObject.Find("ScriptInputField").GetComponent<InputField>().text;
         ObjectManager obj = GameObject.Find(pet).GetComponent<ObjectManager>();
         obj.addAnimalScript(script);
+        GameObject.Find("Player").GetComponent<ScriptRelation>().registerRelation(pet,script);
         GameObject petgo = GameObject.Find(pet);
         GameObject.Find("AddCanvas").SetActive(false);
-        GameObject.Find("Main Camera").GetComponent<ConflictControl>().notgamescene = true;
+        GameObject.Find("Player").GetComponent<ConflictControl>().notgamescene = true;
 
     }
     public Type GetType(string script)

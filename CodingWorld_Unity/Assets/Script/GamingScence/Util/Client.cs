@@ -29,11 +29,13 @@ public class Client : MonoBehaviour
             Debug.Log("Instance already exist, destory object");
             Destroy(this);
         }
+        
     }
 
     private void Start()
     {
         tcp = new TCP();
+        ConnectedToServer();
     }
 
     public static Client GetInstance()

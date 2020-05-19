@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CompilerServer
 {
@@ -27,8 +28,13 @@ namespace CompilerServer
 
             //TODO: 为Compiler 添加编译文件内容
             Compiler compiler = Compiler.GetInstance();
-            compiler.SetCode(content);
+            Console.WriteLine(content);
+            string[] divide = Regex.Split(content," moban ");
+
+            compiler.SetName(divide[0]);
+            compiler.SetCode(divide[1]);
             Console.WriteLine($"[Info]Code\n{content}");
+
             if (compiler.ConditionCheck())
             {
                 ServerSend.Welcome(_fromClient, "[Info]Compiling...");

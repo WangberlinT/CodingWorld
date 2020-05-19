@@ -53,7 +53,7 @@ namespace CompilerServer
 
         public bool ConditionCheck()
         {
-            return code != null && scrpit_name != null;
+            return code != null;
         }
 
         public void Compile()
@@ -76,6 +76,10 @@ namespace CompilerServer
 
         public string TestCompiler()
         {
+            if (scrpit_name == null)
+            {
+                return TestCompiler(code);
+            }
             return TestCompiler(code, scrpit_name);
         }
 
@@ -121,7 +125,7 @@ namespace CompilerServer
                 }
                 else
                 {
-                    return "Ok";//编译通过，返回Ok
+                    return "Ok"+output_dir;//编译通过，返回Ok
                 }
             }
             catch (Exception e)
