@@ -55,7 +55,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameObject.GetComponent<ConflictControl>().notgamescene)
+        if (GameObject.Find("Player").GetComponent<ConflictControl>().notgamescene)
         {
             
             float moveY = 0;
@@ -74,7 +74,7 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        if (gameObject.GetComponent<ConflictControl>().notgamescene) { 
+        if (GameObject.Find("Player").GetComponent<ConflictControl>().notgamescene) { 
             
             
             placeCursorBlocks();

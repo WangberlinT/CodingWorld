@@ -36,6 +36,11 @@ public class Movable : BasicMovement
 
     }
 
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
     public void setGravity(bool b)
     {
         rb.useGravity = b;

@@ -2,14 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProcessOpener : MonoBehaviour
 {
-    string exepath = @".\\CodingWorld_Data\\Managed\\ConsoleApp2.exe";
-    // Start is called before the first frame update
+    string path = "";
+    public Text text;
+
     void Awake()
     {
-        Process.Start(exepath);
+#if UNITY_EDITOR
+        path = @"F:\\BaiduNetdiskDownload\\Majiang\\example\\CodingWorld_Data\\Managed\\";
+#else
+        path = Application.dataPath+"/Managed/";
+#endif
+        Process pr = new Process();
+        pr.StartInfo.WorkingDirectory = path;
+        pr.StartInfo.FileName = path + "ConsoleApp2.exe";
+        text.text = path + "ConsoleApp2.exe";
+        pr.Start();
     }
 
     

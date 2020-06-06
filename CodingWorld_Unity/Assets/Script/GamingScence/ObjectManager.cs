@@ -13,7 +13,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject eye;
     private VisualMessage visual;
     FileStream fs;
-
+    public bool runstate { get; set; }
     void Start()
     {
         //初始化ControlObject 部件,Visual
@@ -31,7 +31,28 @@ public class ObjectManager : MonoBehaviour
 
         visual = new VisualMessage(transform.position, user, user.GetObjectType(),gameObject.name);
         Debug.Log("ObjectManager"+visual.GetName()+" Init OK");
+        runstate = true;
+        if (GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().scriptRelation.ContainsKey(gameObject.name))
+        {
+            Dictionary<string, object> animal = GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().animals[gameObject.name];
 
+            gameObject.transform.position = JsonVector.ToVector3((string)animal["position"]);
+            gameObject.transform.rotation = Quaternion.Euler(JsonVector.ToVector3((string)animal["rotation"]));
+            Transform[] eye = gameObject.GetComponentsInChildren<Transform>();
+            foreach (var child in eye)
+            {
+                if (child.name.Contains("eye"))
+                {
+                    child.transform.rotation = Quaternion.Euler(JsonVector.ToVector3((string)animal["eyerot"]));
+                    break;
+                }
+            }
+
+            addAnimalScript((string)GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().scriptRelation[gameObject.name]);
+            
+        }
+
+            
         //开始ControlObject任务
         user.Begin();
     }
@@ -57,6 +78,7 @@ public class ObjectManager : MonoBehaviour
 #else
         userDllpath=".\\CodingWorld_Data\\UserDll\\";
 #endif
+        if (!Directory.Exists(userDllpath)) Directory.CreateDirectory(userDllpath);
         Debug.Log(userDllpath);
         fs = new FileStream(userDllpath + script + ".dll", FileMode.OpenOrCreate);
 

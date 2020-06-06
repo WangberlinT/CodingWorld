@@ -56,4 +56,10 @@ public class Animal : ControlObject,SightObserver
     {
 
     }
+
+    public void setMoveFinish()
+    {
+        move.gameObject.GetComponent<ObjectManager>().runstate = false;
+    }
+
 }

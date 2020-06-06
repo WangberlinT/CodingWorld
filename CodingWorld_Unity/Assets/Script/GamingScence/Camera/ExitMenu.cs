@@ -19,8 +19,9 @@ public class ExitMenu : MonoBehaviour
             }
             else
             {
-                foreach(Transform child in gameObject.transform)
+                foreach(Transform child in GameObject.Find("Main Camera").transform)
                 {
+                    //if(!child.name.Equals("Main Camera"))
                     child.gameObject.SetActive(false);
 
                 }

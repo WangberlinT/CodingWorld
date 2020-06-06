@@ -38,34 +38,6 @@ public class AddButton : MonoBehaviour
         GameObject.Find("Player").GetComponent<ConflictControl>().notgamescene = true;
 
     }
-    public Type GetType(string script)
-    {
-
-        fs = new FileStream(script+".dll", FileMode.OpenOrCreate);
-
-        byte[] b = new byte[fs.Length];
-
-        fs.Read(b, 0, b.Length);
-
-        fs.Dispose();
-
-        fs.Close();
-
-        Assembly assembly = System.Reflection.Assembly.Load(b);
-
-        type = assembly.GetType(script);
-
-        return type;
-
-    }
-    /*Assembly asm = Assembly.GetExecutingAssembly();
-    Animal a = (Animal)asm.CreateInstance(classname);
-    Type t = a.GetType();
-
-    a.SetBasicSight(eye.GetComponent<BasicSight>());
-        a.SetMovable(gameObject.GetComponent<Movable>());
-
-        user = a;
-        user.Begin();*/
+    
 
 }
