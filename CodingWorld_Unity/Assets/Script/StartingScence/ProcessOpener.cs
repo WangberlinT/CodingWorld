@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ProcessOpener : MonoBehaviour
 {
     string path = "";
-    public Text text;
+
 
     void Awake()
     {
@@ -19,7 +19,7 @@ public class ProcessOpener : MonoBehaviour
         Process pr = new Process();
         pr.StartInfo.WorkingDirectory = path;
         pr.StartInfo.FileName = path + "ConsoleApp2.exe";
-        text.text = path + "ConsoleApp2.exe";
+
         pr.Start();
     }
 
