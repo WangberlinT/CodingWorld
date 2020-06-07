@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScriptRelation : MonoBehaviour
 {
     public Hashtable scriptRelation = new Hashtable();
+    public string worldname;
 
 
     private void Start()

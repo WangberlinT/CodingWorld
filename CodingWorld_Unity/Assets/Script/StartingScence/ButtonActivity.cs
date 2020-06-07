@@ -16,6 +16,7 @@ public class ButtonActivity : MonoBehaviour
     // Start is called before the first frame update
     public Text text;
     public GameObject go;
+    public InputField worldname;
 
     public void StartGameButton()
     {
@@ -26,8 +27,17 @@ public class ButtonActivity : MonoBehaviour
 
     public void StartNewGameButton()
     {
-        SceneManager.LoadScene("Gaming");
+        GameObject buttonpair = GameObject.Find("Panel").transform.Find("InputWordName").gameObject;
+        buttonpair.SetActive(true);
+        GameObject.Find("LoadCanvas").SetActive(false);
+        
 
+    }
+
+    public void CreateNewWorldButton()
+    {
+        GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().worldname = worldname.text;
+       SceneManager.LoadScene("Gaming");
     }
 
     public void QuitButton()
@@ -86,6 +96,7 @@ public class ButtonActivity : MonoBehaviour
         {
             savefile = openFileName.fileTitle;
         }
+        GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().worldname = savefile.Replace(".json", "");
         savefile = fp + savefile;
         StreamReader streamReader = new StreamReader(savefile);
         string str = streamReader.ReadToEnd();
@@ -146,7 +157,7 @@ public class ButtonActivity : MonoBehaviour
         fp = ".\\save\\";
 #endif
         if (!Directory.Exists(fp)) Directory.CreateDirectory(fp);
-        fp += "relation.json";
+        fp += GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().worldname+".json";
         FileStream fs1 = new FileStream(fp, FileMode.Create, FileAccess.ReadWrite);
         fs1.Close();
         world_data = world_data + animal_data;
