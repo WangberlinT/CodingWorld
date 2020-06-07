@@ -34,19 +34,7 @@ public class ObjectManager : MonoBehaviour
         runstate = true;
         if (GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().scriptRelation.ContainsKey(gameObject.name))
         {
-            Dictionary<string, object> animal = GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().animals[gameObject.name];
-
-            gameObject.transform.position = JsonVector.ToVector3((string)animal["position"]);
-            gameObject.transform.rotation = Quaternion.Euler(JsonVector.ToVector3((string)animal["rotation"]));
-            Transform[] eye = gameObject.GetComponentsInChildren<Transform>();
-            foreach (var child in eye)
-            {
-                if (child.name.Contains("eye"))
-                {
-                    child.transform.rotation = Quaternion.Euler(JsonVector.ToVector3((string)animal["eyerot"]));
-                    break;
-                }
-            }
+            
 
             addAnimalScript((string)GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().scriptRelation[gameObject.name]);
             

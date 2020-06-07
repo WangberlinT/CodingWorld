@@ -30,6 +30,7 @@ public class GameRecorder
     private GameRecorder()
     {
         cubes = new Dictionary<Vector3, CubeData>();
+       
     }
 
     public static GameRecorder GetInstance()
