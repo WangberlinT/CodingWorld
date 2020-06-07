@@ -104,7 +104,6 @@ public class ButtonActivity : MonoBehaviour
                 if ((bool)animal["runstate"])
                 {
                     GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().registerRelation((string)animal["name"], (string)animal["script"]);
-                    GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().addAnimal((string)animal["name"], animal);
                 }
 
             }

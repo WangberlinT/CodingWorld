@@ -19,18 +19,6 @@ public class SaveData
         Hashtable obj_data = new Hashtable();
         obj_data.Add("name", name);
         obj_data.Add("script",script);
-        obj_data.Add("position",JsonVector.Tostring(go.transform.position));
-        obj_data.Add("rotation", JsonVector.Tostring(go.transform.rotation.eulerAngles));
-        Transform[] eye = go.GetComponentsInChildren<Transform>();
-        foreach( var child in eye)
-        {
-            if (child.name.Contains("eye"))
-            {
-                obj_data.Add("eyerot", JsonVector.Tostring(child.rotation.eulerAngles));
-                break;
-            }
-        }
-        
         obj_data.Add("runstate", go.GetComponent<ObjectManager>().runstate);
         object_data.Add(obj_data);
     }
