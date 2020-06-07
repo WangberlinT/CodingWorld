@@ -7,16 +7,19 @@ public class CreatureData
 {
     public string name;
     public float[] position = new float[3];
-    public int index;
 
-    public CreatureData(Creature creature)
+    public CreatureData(Vector3 pos)
     {
-        index = Creature.index;
-        name = creature.GetName();
-        Vector3 pos = creature.GetCreature().transform.position;
+        name = "Creature" + GameRecorder.creatureIndex;
+        GameRecorder.creatureIndex++;
         position[0] = pos.x;
         position[1] = pos.y;
         position[2] = pos.z;
+    }
+
+    public string GetName()
+    {
+        return name;
     }
 
     public Vector3 GetPos()

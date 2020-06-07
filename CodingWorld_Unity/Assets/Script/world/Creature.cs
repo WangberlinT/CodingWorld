@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Creature
 {
-    public static int index = 0;
     private string name;
     private GameObject creature;
     private Animator creatureAni;
@@ -16,14 +15,13 @@ public class Creature
 
     private int faceIndex = 0;           //朝向下标 0为向前，1为向右，2为向后，3为向左
 
-    public Creature(Vector3 pos)
+    public Creature(CreatureData data)
     {
         creature = GameObject.Instantiate((GameObject)Resources.Load("Prefab/Slime", typeof(GameObject)));
         creatureAni = creature.GetComponent<Animator>();
-        creature.transform.position = pos;
-        name = "Creature" + index;
+        creature.transform.position = data.GetPos();
+        name = data.GetName();
         creature.name = name;
-        index++;
     }
 
     public string GetName()

@@ -91,7 +91,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
             isJump = true;
         //切换编辑模式
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.R))
             cubeMode = !cubeMode;
 
         float scrool = Input.GetAxis("Mouse ScrollWheel");
@@ -99,20 +99,31 @@ public class PlayerControl : MonoBehaviour
         if(cubeMode)
             UpdateIndex(world.blocktypes.Length, scrool);
         else
-            //TODO: coding obj select
-        
-
-        if(highLightBlock.gameObject.activeSelf)
         {
+            //TODO: coding obj select
+            promptText.text = "Creature selected";
+        }
+
+
+
+        if (highLightBlock.gameObject.activeSelf)
+        {
+            debugScreen.LogMessage("here", "=======");
             if(Input.GetMouseButtonDown(0))
             {
                 debugScreen.LogMessage("Click", "Left");
-                BreakBlock();
+                if (cubeMode)
+                    BreakBlock();
+                else
+                    BreakCreature();
             }
             else if(Input.GetMouseButtonDown(1))
             {
                 debugScreen.LogMessage("Click", "Right");
-                CreateBlock();
+                if (cubeMode)
+                    CreateBlock();
+                else
+                    CreateCreature();
             }
             else
                 debugScreen.LogMessage("Click", "None");
@@ -158,9 +169,22 @@ public class PlayerControl : MonoBehaviour
     }
     private void BreakBlock()
     {
+        Debug.Log("Break");
         world.GetChunkFromVector3(highLightBlock.position).EditVoxel(highLightBlock.position, 0);
         //index = air
         GameRecorder.GetInstance().UpdateCubes(CreateCubeData(0, highLightBlock.position, false));
+    }
+
+    private void BreakCreature()
+    {
+        Vector3 offset = new Vector3(0.5f, 0, 0.5f);
+        world.DeleteCreature(highLightBlock.position + offset);
+    }
+
+    private void CreateCreature()
+    {
+        Vector3 offset = new Vector3(0.5f, 0, 0.5f);
+        world.AddCreature(placeBlock.position + offset);
     }
 
     private void ViewRotate()

@@ -475,6 +475,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4174967432776898}
+  - component: {fileID: 7628054096641853144}
   m_Layer: 0
   m_Name: EyeCTRL
   m_TagString: Untagged
@@ -499,3 +500,21 @@ Transform:
   m_Father: {fileID: 4101645566317300}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7628054096641853144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965507997515136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d153175d00d01a34486f5c84de9e3ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view_radius: 8
+  ray_num: 30
+  sight_angle: 90
+  X_min: -45
+  X_max: 45
+  rotate_speed: 90

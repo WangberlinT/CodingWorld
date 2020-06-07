@@ -25,7 +25,9 @@ public class GameRecorder
 {
     private Dictionary<Vector3, CubeData> cubes;
     private PlayerData playerData;
+    private List<CreatureData> creatureDatas;
     private static GameRecorder instance;
+    public static int creatureIndex = 0;
 
     private GameRecorder()
     {
@@ -43,6 +45,11 @@ public class GameRecorder
     public bool HasRecord()
     {
         return cubes != null && playerData != null;
+    }
+
+    public void SetCreatureDatas(List<CreatureData> datas)
+    {
+        creatureDatas = datas;
     }
 
     public void UpdateCubes(CubeData c)
@@ -64,11 +71,18 @@ public class GameRecorder
             cubes[c.GetPosition()] = c;
         }
         this.playerData = temp.playerData;
+        this.creatureDatas = temp.creatureDatas;
+        creatureIndex = temp.creatureIndex;
+    }
+
+    public List<CreatureData> GetCreatureDatas()
+    {
+        return creatureDatas;
     }
 
     public string SaveAsJson()
     {
-        WorldData save = new WorldData(playerData, GetCubeDatas());
+        WorldData save = new WorldData(playerData, GetCubeDatas(),creatureDatas,creatureIndex);
         return JsonUtility.ToJson(save);
     }
 
@@ -90,11 +104,15 @@ public class WorldData
 {
     public PlayerData playerData;
     public List<CubeData> cubeDatas;
+    public List<CreatureData> creatureDatas;
+    public int creatureIndex;
 
-    public WorldData(PlayerData playerData, List<CubeData> cubeDatas)
+    public WorldData(PlayerData playerData, List<CubeData> cubeDatas, List<CreatureData> creatureDatas, int index)
     {
         this.playerData = playerData;
         this.cubeDatas = cubeDatas;
+        this.creatureDatas = creatureDatas;
+        this.creatureIndex = index;
     }
 }
 

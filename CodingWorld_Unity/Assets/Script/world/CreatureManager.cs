@@ -26,7 +26,6 @@ public class CreatureManager
     {
         if (creatureDatas.ContainsKey(pos))
         {
-            CreatureData m = creatureDatas[pos];
             creatureDatas.Remove(pos);
             creatures[pos].Delete();
             creatures.Remove(pos);
@@ -79,7 +78,8 @@ public class CreatureManager
     private void CreatureFactory(CreatureData data,bool isPause)
     {
         Debug.Log("Creature generate!" + data.GetPos());
-        Creature tmp = new Creature(data.GetPos());
+        Creature tmp = new Creature(data);
+        creatures[data.GetPos()] = tmp;
         tmp.SetPaused(isPause);
     }
 }

@@ -19,6 +19,7 @@ public class World : MonoBehaviour
     private ChunkCoord playerChunkCoord;
     private List<ChunkCoord> chunkToCreate = new List<ChunkCoord>();
     private bool chunkCreating;
+    private CreatureManager creatureManager = new CreatureManager();
     
 
     private void Start()
@@ -28,6 +29,7 @@ public class World : MonoBehaviour
         spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
         LoadWorld();
         GenerateWorld();
+        creatureManager.GenerateCreatures();
         
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
         
@@ -50,12 +52,15 @@ public class World : MonoBehaviour
                 if (chunks[x, z] == null)
                 {
                     //TODO: new Chunks,not init
-                    chunks[x, z] = new Chunk(new ChunkCoord(x, z), this, false);
+                    chunks[x, z] = new Chunk(new ChunkCoord(x, z), this, true);
                 }
 
                 //TODO: update voxel
                 chunks[x, z].EditVoxel(tempPos, cubeData.GetIndex());
             }
+
+            //TODO: load creatures
+            creatureManager.LoadCreatureDatas(recorder.GetCreatureDatas());
         }
     }
 
@@ -76,6 +81,20 @@ public class World : MonoBehaviour
 
         GameRecorder.GetInstance().UpdatePlayer(player.position);
         playerLastChunkCoord = playerChunkCoord;
+    }
+
+    public void AddCreature(Vector3 pos)
+    {
+        creatureManager.AddCreature(new CreatureData(pos));
+        GameRecorder.GetInstance().SetCreatureDatas(creatureManager.GetCreatureDatas());
+        
+    }
+
+    public void DeleteCreature(Vector3 pos)
+    {
+        Debug.Log("Delete " + pos);
+        creatureManager.DeleteCreature(pos);
+        GameRecorder.GetInstance().SetCreatureDatas(creatureManager.GetCreatureDatas());
     }
 
     public int getActiveChunkListSize()

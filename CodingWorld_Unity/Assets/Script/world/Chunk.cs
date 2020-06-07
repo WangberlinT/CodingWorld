@@ -157,7 +157,9 @@ public class Chunk
 
             if(!IsVoxelInChunk((int)currentVoxel.x, (int)currentVoxel.y, (int)currentVoxel.z))
             {
-                world.GetChunkFromVector3(currentVoxel + position).UpdateChunk();
+                Chunk temp = world.GetChunkFromVector3(currentVoxel + position);
+                if (temp != null)
+                    temp.UpdateChunk();
             }
         }
     }

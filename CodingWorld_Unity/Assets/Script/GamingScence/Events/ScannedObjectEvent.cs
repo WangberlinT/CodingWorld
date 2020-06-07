@@ -44,9 +44,7 @@ namespace Events
 
                 ObjectManager obj_mng = root.GetComponent<ObjectManager>();
 
-                if (obj_mng == null)
-                    Debug.Log("obj_mng is null");
-                else
+                if(obj_mng != null)
                     messages.Add(obj_mng.GetVisualMessage());
             }
         }
