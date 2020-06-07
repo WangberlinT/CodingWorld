@@ -41,6 +41,7 @@ public class ButtonActivity : MonoBehaviour
 
     public void QuitWithSave()
     {
+
         saveData();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -57,7 +58,9 @@ public class ButtonActivity : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-
+    /**
+     * 保存加载好的json格式dict，物体：脚本Key-value pair
+     */
     public void loadSave()
     {
         string fp = ".\\relation.json";
@@ -101,13 +104,14 @@ public class ButtonActivity : MonoBehaviour
         }
         Debug.Log(json["animal"][0]["script"]);
         
-
+        //TODO： load world data
     }
 
     
 
     public void saveData()
     {
+        SaveWorldData();
         Hashtable relation = GameObject.Find("Player").GetComponent<ScriptRelation>().scriptRelation;
         if (relation.Keys.Count == 0) return;
         SaveData save_data = new SaveData();
@@ -130,7 +134,23 @@ public class ButtonActivity : MonoBehaviour
         FileStream fs1 = new FileStream(fp, FileMode.Create, FileAccess.ReadWrite);
         fs1.Close();
         
-        File.WriteAllText(fp, JsonMapper.ToJson(saveData));        
+        File.WriteAllText(fp, JsonMapper.ToJson(saveData));
+
+
+        //TODO: save world Json
+        
+    }
+
+    private void SaveWorldData()
+    {
+        string dir = ".\\save\\";
+        string name = "test.json";
+
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+
+        File.WriteAllText(dir + name, GameRecorder.GetInstance().SaveAsJson());
+        Debug.Log("save at " + dir + name);
     }
 
    

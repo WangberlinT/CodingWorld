@@ -123,15 +123,28 @@ public class PlayerControl : MonoBehaviour
                 debugScreen.LogMessage("Click", "None");
         }
     }
+
+    private CubeData CreateCubeData(int index, Vector3 pos,bool creation)
+    {
+        return new CubeData(world.blocktypes[index].blockName, index, creation, pos);
+    }
+
     private void CreateBlock()
     {
         //not air
         if(selectedBlockIndex != 0)
+        {
             world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+            GameRecorder.GetInstance().UpdateCubes(CreateCubeData(selectedBlockIndex, placeBlock.position, true));
+        }
+            
+
     }
     private void BreakBlock()
     {
         world.GetChunkFromVector3(highLightBlock.position).EditVoxel(highLightBlock.position, 0);
+        //index = air
+        GameRecorder.GetInstance().UpdateCubes(CreateCubeData(0, highLightBlock.position, false));
     }
 
     private void ViewRotate()

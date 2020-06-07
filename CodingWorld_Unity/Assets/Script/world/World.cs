@@ -26,9 +26,37 @@ public class World : MonoBehaviour
         Random.InitState(seed);
         debugScreen.SetActive(false);
         spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
+        LoadWorld();
         GenerateWorld();
+        
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
         
+    }
+
+    private void LoadWorld()
+    {
+        GameRecorder recorder = GameRecorder.GetInstance();
+        if (recorder.HasRecord())
+        {
+            spawnPosition = recorder.GetPlayerData().GetPlayerPosition();
+            //add chunks and update cubes
+            List<CubeData> cubeDatas = recorder.GetCubeDatas();
+
+            foreach (CubeData cubeData in cubeDatas)
+            {
+                Vector3 tempPos = cubeData.GetPosition();
+                int x = Mathf.FloorToInt(tempPos.x / VoxelData.ChunkWidth);
+                int z = Mathf.FloorToInt(tempPos.z / VoxelData.ChunkWidth);
+                if (chunks[x, z] == null)
+                {
+                    //TODO: new Chunks,not init
+                    chunks[x, z] = new Chunk(new ChunkCoord(x, z), this, false);
+                }
+
+                //TODO: update voxel
+                chunks[x, z].EditVoxel(tempPos, cubeData.GetIndex());
+            }
+        }
     }
 
     private void Update()
@@ -40,12 +68,13 @@ public class World : MonoBehaviour
         if(chunkToCreate.Count > 0 && !chunkCreating)
         {
             Debug.Log("ChunkTOCreate Number = " + chunkToCreate.Count);
-            StartCoroutine("CreateChunks");
+            StartCoroutine(CreateChunks());
         }
 
         if (Input.GetKeyDown(KeyCode.F3))
             debugScreen.SetActive(!debugScreen.activeSelf);
 
+        GameRecorder.GetInstance().UpdatePlayer(player.position);
         playerLastChunkCoord = playerChunkCoord;
     }
 
@@ -63,7 +92,11 @@ public class World : MonoBehaviour
         {
             for(int z = (VoxelData.WorldSizeInChunks / 2) - VoxelData.ViewDistanceInChunks; z < (VoxelData.WorldSizeInChunks / 2) + VoxelData.ViewDistanceInChunks; z ++)
             {
-                chunks[x, z] = new Chunk(new ChunkCoord(x, z), this, true);
+                if(chunks[x,z] == null)
+                {
+                    chunks[x, z] = new Chunk(new ChunkCoord(x, z), this, true);
+                }
+                
                 activeChunks.Add(new ChunkCoord(x, z));
                 
             }
@@ -227,5 +260,15 @@ public class BlockType
                 return -1;
         }
     }
+}
+
+[System.Serializable]
+public class Setting
+{
+    //视野为八个chunk 
+    public int viewDistance = 8;
+    //加载距离为16个chunk
+    public int loadDistance = 16;
+
 }
 

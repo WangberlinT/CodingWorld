@@ -15,11 +15,13 @@ public class ExitMenu : MonoBehaviour
             if (gameObject.GetComponent<ConflictControl>().notgamescene)
             {
                 settingCanvas.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
                 gameObject.GetComponent<ConflictControl>().notgamescene = false;
             }
             else
             {
-                foreach(Transform child in GameObject.Find("Main Camera").transform)
+                Cursor.lockState = CursorLockMode.Locked;
+                foreach (Transform child in GameObject.Find("Main Camera").transform)
                 {
                     //if(!child.name.Equals("Main Camera"))
                     child.gameObject.SetActive(false);

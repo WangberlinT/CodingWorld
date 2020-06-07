@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class AddWindows : MonoBehaviour
 {
     string path;
@@ -13,7 +15,7 @@ public class AddWindows : MonoBehaviour
     public void openWindow()
     {
 #if UNITY_EDITOR
-        path = "F:\\BaiduNetdiskDownload\\Majiang\\example\\CodingWorld_Data\\UserDll\\";
+        path = "D:\\Data of Wangberlin\\SweetyAndDoggy\\UserDll";
 #else
         path=".\\CodingWorld_Data\\UserDll\\";
 #endif
