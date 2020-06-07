@@ -57,7 +57,6 @@ public class GameRecorder
 
     public void Load(string jsonFile)
     {
-        //TODO: 改成WorldData
         WorldData temp = JsonUtility.FromJson<WorldData>(jsonFile);
         foreach(CubeData c in temp.cubeDatas)
         {

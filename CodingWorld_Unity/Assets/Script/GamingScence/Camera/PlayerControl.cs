@@ -40,6 +40,8 @@ public class PlayerControl : MonoBehaviour
     private World world;
     private Text promptText;
 
+    private bool cubeMode = true;
+
 
     private const string TAG = "PlayerControl";
     
@@ -88,23 +90,16 @@ public class PlayerControl : MonoBehaviour
         //TODO: Input
         if (Input.GetButtonDown("Jump"))
             isJump = true;
+        //切换编辑模式
+        if (Input.GetKeyDown(KeyCode.Q))
+            cubeMode = !cubeMode;
 
         float scrool = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scrool != 0)
-        {
-            if (scrool > 0)
-            {
-                selectedBlockIndex = (selectedBlockIndex + 1) % world.blocktypes.Length;
-            }
-            else
-            {
-                int complete = world.blocktypes.Length - 1;
-                selectedBlockIndex = (selectedBlockIndex + complete) % world.blocktypes.Length;
-            }
-
-            promptText.text = world.blocktypes[selectedBlockIndex].blockName + " selected";
-        }
+        if(cubeMode)
+            UpdateIndex(world.blocktypes.Length, scrool);
+        else
+            //TODO: coding obj select
         
 
         if(highLightBlock.gameObject.activeSelf)
@@ -121,6 +116,27 @@ public class PlayerControl : MonoBehaviour
             }
             else
                 debugScreen.LogMessage("Click", "None");
+        }
+    }
+
+    private void UpdateIndex(int length,float scrool)
+    {
+        if (scrool != 0)
+        {
+            if (scrool > 0)
+            {
+                selectedBlockIndex = (selectedBlockIndex + 1) % length;
+            }
+            else
+            {
+                int complete = length - 1;
+                selectedBlockIndex = (selectedBlockIndex + complete) % length;
+            }
+
+            if (cubeMode)
+                promptText.text = world.blocktypes[selectedBlockIndex].blockName + " selected";
+            else
+                promptText.text = "CodingObject selected";
         }
     }
 
