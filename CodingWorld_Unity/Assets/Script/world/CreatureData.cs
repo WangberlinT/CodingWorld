@@ -26,4 +26,11 @@ public class CreatureData
     {
         return new Vector3(position[0], position[1], position[2]);
     }
+
+    public void SetPos(Vector3 v)
+    {
+        position[0] = v.x;
+        position[1] = v.y;
+        position[2] = v.z;
+    }
 }

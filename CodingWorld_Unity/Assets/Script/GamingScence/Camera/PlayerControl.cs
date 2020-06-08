@@ -96,8 +96,11 @@ public class PlayerControl : MonoBehaviour
 
         float scrool = Input.GetAxis("Mouse ScrollWheel");
 
-        if(cubeMode)
+        if (cubeMode)
+        {
             UpdateIndex(world.blocktypes.Length, scrool);
+            promptText.text = "Cube selected";
+        }
         else
         {
             //TODO: coding obj select

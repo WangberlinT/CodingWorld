@@ -20,6 +20,8 @@ public class Creature
         creature = GameObject.Instantiate((GameObject)Resources.Load("Prefab/Slime", typeof(GameObject)));
         creatureAni = creature.GetComponent<Animator>();
         creature.transform.position = data.GetPos();
+        creature.transform.rotation = GameObject.Find("Player").transform.rotation;
+        //creature.transform.up = new Vector3(0, 1, 0);
         name = data.GetName();
         creature.name = name;
     }

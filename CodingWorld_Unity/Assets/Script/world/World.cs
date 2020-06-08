@@ -240,6 +240,11 @@ public class World : MonoBehaviour
         else
             return false;
     }
+
+    public void SaveUpdate()
+    {
+        GameRecorder.GetInstance().SetCreatureDatas(creatureManager.GetSaveCreatureDatas());
+    }
 }
 
 [System.Serializable]

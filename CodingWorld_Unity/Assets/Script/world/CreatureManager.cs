@@ -39,6 +39,19 @@ public class CreatureManager
         return list;
     }
 
+    public void UpdateCreatureDatas()
+    {
+        foreach(Vector3 v in creatures.Keys)
+        {
+            creatureDatas[v].SetPos(creatures[v].GetCreature().transform.position);
+        }
+    }
+    public List<CreatureData> GetSaveCreatureDatas()
+    {
+        UpdateCreatureDatas();
+        return GetCreatureDatas();
+    }
+
     public void LoadCreatureDatas(List<CreatureData> datas)
     {
         if(datas != null && datas.Count != 0)

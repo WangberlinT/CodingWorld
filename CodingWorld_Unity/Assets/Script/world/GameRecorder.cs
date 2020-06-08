@@ -82,6 +82,7 @@ public class GameRecorder
 
     public string SaveAsJson()
     {
+        GameObject.Find("World").GetComponent<World>().SaveUpdate();
         WorldData save = new WorldData(playerData, GetCubeDatas(),creatureDatas,creatureIndex);
         return JsonUtility.ToJson(save);
     }

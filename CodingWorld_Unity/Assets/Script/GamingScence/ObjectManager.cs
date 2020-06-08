@@ -39,7 +39,14 @@ public class ObjectManager : MonoBehaviour
             addAnimalScript((string)GameObject.Find("DataTransfer").GetComponent<ScriptRelation>().scriptRelation[gameObject.name]);
             
         }
-
+        foreach(CreatureData data in GameRecorder.GetInstance().GetCreatureDatas())
+        {
+            if (data.GetName().Equals(gameObject.name))
+            {
+                gameObject.transform.position = data.GetPos();
+                break;
+            }
+        }
             
         //开始ControlObject任务
         user.Begin();

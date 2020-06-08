@@ -25,7 +25,6 @@ public class Movable : BasicMovement
         groundcheck();
         //Debug.Log(dis_to_ground+" groud");
         if (this.transform.up != new Vector3(0, 1, 0)) {
-            Debug.Log(1);
             this.transform.localEulerAngles=direction;
         }
         else
@@ -151,7 +150,8 @@ public class Movable : BasicMovement
     {
        
             iTween.MoveTo(gameObject, iTween.Hash("position", position,
-                                                    "speed", speed
+                                                    "speed", speed,
+                                                    "easeType", iTween.EaseType.linear
                                                     ));
         
     }
@@ -161,7 +161,8 @@ public class Movable : BasicMovement
 
         iTween.MoveTo(gameObject, iTween.Hash("position", position,
                                                 "speed", speed,
-                                                "orienttopath", true
+                                                "orienttopath", true,
+                                                "easeType", iTween.EaseType.linear
                                                 ));
     }
 
@@ -186,6 +187,7 @@ public class Movable : BasicMovement
         arg.Add("movetopath", true);
         arg.Add("orienttopath", true);
         arg.Add("speed", speed);
+        arg.Add("easeType", iTween.EaseType.linear);
         iTween.MoveTo(gameObject, arg);
 
     }
