@@ -24,10 +24,8 @@ public class moban : Animal, SightObserver
     public override IEnumerator Task()
     {
         // write code here
-        move.MoveTo(move.Left(4), 2);
-        yield return new WaitForSeconds(2.1f);
-        move.MoveTo(move.Right(4), 2);
-        yield return new WaitForSeconds(2.1f);
+        move.Jump(300);
+        yield return new WaitForSeconds(1f);
 
     }
 

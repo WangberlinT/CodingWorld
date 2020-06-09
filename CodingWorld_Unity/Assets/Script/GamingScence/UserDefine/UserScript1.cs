@@ -24,11 +24,8 @@ public class UserScript1 : Animal, SightObserver
     public override IEnumerator Task()
     {
 
-        move.MoveTo(move.Left(3), 1);
-        yield return new WaitForSeconds(3.1f);
-        move.MoveTo(move.Right(3), 1);
-        yield return new WaitForSeconds(3.1f);
-        setMoveFinish();
+        move.jumpForward();
+        yield return new WaitForSeconds(1f);
 
     }
 

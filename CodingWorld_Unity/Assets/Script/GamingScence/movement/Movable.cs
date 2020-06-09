@@ -12,6 +12,7 @@ public class Movable : BasicMovement
     private float height;
     private Vector3 direction;
     private float dis_to_ground;
+
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -23,7 +24,7 @@ public class Movable : BasicMovement
     {
         
         groundcheck();
-        //Debug.Log(dis_to_ground+" groud");
+        
         if (this.transform.up != new Vector3(0, 1, 0)) {
             this.transform.localEulerAngles=direction;
         }
@@ -225,9 +226,15 @@ public class Movable : BasicMovement
         rb.AddForce(new Vector3(this.transform.forward.x,2* Vector3.up.y, this.transform.forward.z) * 200f);
     }
 
+    public void Jump(float strength)
+    {
+        rb.AddForce(new Vector3(this.transform.forward.x, 2 * Vector3.up.y, this.transform.forward.z) * strength);
+    }
+
     public void Stop()
     {
         iTween.Stop(gameObject);
+        Debug.Log("Stop");
     }
     bool groundcheck()
     {
@@ -252,5 +259,13 @@ public class Movable : BasicMovement
         else
             return -1;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        
+
+    }
+
 
 }

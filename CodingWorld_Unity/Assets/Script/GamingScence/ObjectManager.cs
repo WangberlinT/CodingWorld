@@ -75,7 +75,7 @@ public class ObjectManager : MonoBehaviour
         userDllpath=".\\CodingWorld_Data\\UserDll\\";
 #endif
         if (!Directory.Exists(userDllpath)) Directory.CreateDirectory(userDllpath);
-        Debug.Log(userDllpath);
+
         fs = new FileStream(userDllpath + script + ".dll", FileMode.OpenOrCreate);
 
         byte[] b = new byte[fs.Length];
@@ -89,7 +89,7 @@ public class ObjectManager : MonoBehaviour
         Assembly assembly = Assembly.LoadFile(userDllpath + script + ".dll");
 
         Type type = assembly.GetType(script);
-        Debug.Log(type);
+
         Debug.Log("AddAnimalScript!");
         Animal a =(Animal) assembly.CreateInstance(script);
         a.SetBasicSight(eye.GetComponent<BasicSight>());
