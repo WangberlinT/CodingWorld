@@ -44,6 +44,7 @@ public class CreatureManager
         foreach(Vector3 v in creatures.Keys)
         {
             creatureDatas[v].SetPos(creatures[v].GetCreature().transform.position);
+            creatureDatas[v].SetRot(creatures[v].GetCreature().transform.rotation.eulerAngles);
         }
     }
     public List<CreatureData> GetSaveCreatureDatas()

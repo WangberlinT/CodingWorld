@@ -85,7 +85,7 @@ public class World : MonoBehaviour
 
     public void AddCreature(Vector3 pos)
     {
-        creatureManager.AddCreature(new CreatureData(pos));
+        creatureManager.AddCreature(new CreatureData(pos,GameObject.Find("Player").transform.rotation.eulerAngles));
         GameRecorder.GetInstance().SetCreatureDatas(creatureManager.GetCreatureDatas());
         
     }

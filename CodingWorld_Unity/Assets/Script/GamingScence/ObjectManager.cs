@@ -44,6 +44,7 @@ public class ObjectManager : MonoBehaviour
             if (data.GetName().Equals(gameObject.name))
             {
                 gameObject.transform.position = data.GetPos();
+                gameObject.transform.rotation =  Quaternion.Euler(data.GetRot());
                 break;
             }
         }
